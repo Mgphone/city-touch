@@ -30,7 +30,8 @@ const Footer = () => {
             <li>
               <a
                 href="/"
-                className="hover:text-blue-600 dark:hover:text-blue-400 transition"
+                className="hover:text-orange-500 dark:hover:text-orange-400 transition
+"
               >
                 Home
               </a>
@@ -38,7 +39,8 @@ const Footer = () => {
             <li>
               <a
                 href="/#how-it-works"
-                className="hover:text-blue-600 dark:hover:text-blue-400 transition"
+                className="hover:text-orange-500 dark:hover:text-orange-400 transition
+"
               >
                 How It Works
               </a>
@@ -46,7 +48,8 @@ const Footer = () => {
             <li>
               <a
                 href="/#services"
-                className="hover:text-blue-600 dark:hover:text-blue-400 transition"
+                className="hover:text-orange-500 dark:hover:text-orange-400 transition
+"
               >
                 Services
               </a>
@@ -54,7 +57,8 @@ const Footer = () => {
             <li>
               <a
                 href="/#pricing"
-                className="hover:text-blue-600 dark:hover:text-blue-400 transition"
+                className="hover:text-orange-500 dark:hover:text-orange-400 transition
+"
               >
                 Pricing
               </a>
@@ -62,7 +66,8 @@ const Footer = () => {
             <li>
               <a
                 href="/#faq"
-                className="hover:text-blue-600 dark:hover:text-blue-400 transition"
+                className="hover:text-orange-500 dark:hover:text-orange-400 transition
+"
               >
                 FAQ
               </a>
@@ -78,7 +83,8 @@ const Footer = () => {
               <Phone size={16} />
               <a
                 href="tel:+4407739392232"
-                className="hover:text-blue-600 dark:hover:text-blue-400 transition"
+                className="hover:text-orange-500 dark:hover:text-orange-400 transition
+"
               >
                 +44 7739 392232
               </a>
@@ -87,7 +93,8 @@ const Footer = () => {
               <Mail size={16} />
               <a
                 href="mailto:support@citytouch.co.uk"
-                className="hover:text-blue-600 dark:hover:text-blue-400 transition"
+                className="hover:text-orange-500 dark:hover:text-orange-400 transition
+"
               >
                 support@citytouch.co.uk
               </a>
