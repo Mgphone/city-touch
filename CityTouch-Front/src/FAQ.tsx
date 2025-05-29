@@ -12,9 +12,9 @@ export const FAQ = () => {
   return (
     <section
       id="faq"
-      className="bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 py-12 border-t border-gray-300 dark:border-gray-700"
+      className="bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 border-t border-gray-300 dark:border-gray-700 py-24 px-6"
     >
-      <div className="container mx-auto px-6">
+      <div className="max-w-4xl mx-auto px-6">
         <h2 className="text-3xl md:text-4xl font-bold mb-6 text-center">
           Frequently Asked{" "}
           <span className="bg-gradient-to-b from-primary/60 to-primary text-transparent bg-clip-text">
