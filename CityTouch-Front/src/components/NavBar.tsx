@@ -29,12 +29,8 @@ const routeList: RouteProps[] = [
     label: "How It Works",
   },
   {
-    href: "/#pricing",
-    label: "Pricing",
-  },
-  {
-    href: "/#contact",
-    label: "Contact",
+    href: "/#about",
+    label: "About",
   },
   {
     href: "/#services",
@@ -108,7 +104,9 @@ export const Navbar = () => {
                       {label}
                     </a>
                   ))}
-                  <Button>Book Now</Button>
+                  <Button className="text-white bg-orange-500 hover:bg-orange-600 px-4 py-2 rounded-lg shadow transition">
+                    Book Now
+                  </Button>
                 </nav>
               </SheetContent>
             </Sheet>
@@ -128,7 +126,9 @@ export const Navbar = () => {
                 {route.label}
               </a>
             ))}
-            <Button>Book Now</Button>
+            <Button className="text-white bg-orange-500 hover:bg-orange-600 px-4 py-2 rounded-lg shadow transition">
+              Book Now
+            </Button>
           </nav>
         </NavigationMenuList>
       </NavigationMenu>

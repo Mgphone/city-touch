@@ -30,8 +30,7 @@ const Footer = () => {
             <li>
               <a
                 href="/"
-                className="hover:text-orange-500 dark:hover:text-orange-400 transition
-"
+                className="hover:text-orange-500 dark:hover:text-orange-400 transition"
               >
                 Home
               </a>
@@ -39,35 +38,31 @@ const Footer = () => {
             <li>
               <a
                 href="/#how-it-works"
-                className="hover:text-orange-500 dark:hover:text-orange-400 transition
-"
+                className="hover:text-orange-500 dark:hover:text-orange-400 transition"
               >
                 How It Works
               </a>
             </li>
             <li>
               <a
+                href="/#about"
+                className="hover:text-orange-500 dark:hover:text-orange-400 transition"
+              >
+                About
+              </a>
+            </li>
+            <li>
+              <a
                 href="/#services"
-                className="hover:text-orange-500 dark:hover:text-orange-400 transition
-"
+                className="hover:text-orange-500 dark:hover:text-orange-400 transition"
               >
                 Services
               </a>
             </li>
             <li>
               <a
-                href="/#pricing"
-                className="hover:text-orange-500 dark:hover:text-orange-400 transition
-"
-              >
-                Pricing
-              </a>
-            </li>
-            <li>
-              <a
                 href="/#faq"
-                className="hover:text-orange-500 dark:hover:text-orange-400 transition
-"
+                className="hover:text-orange-500 dark:hover:text-orange-400 transition"
               >
                 FAQ
               </a>

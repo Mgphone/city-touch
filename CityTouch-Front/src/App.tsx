@@ -5,6 +5,7 @@ import { FAQ } from "./FAQ";
 import { HeroSection } from "./components/HeroSection";
 import { ScrollToTop } from "./components/ScrollToTop";
 import { HowItWorks } from "./components/HowItWorks";
+import { About } from "./components/About";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <NavBar />
       <HeroSection />
       <HowItWorks />
+      <About />
       <FAQ />
       <Footer />
       <ScrollToTop />
