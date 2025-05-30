@@ -10,7 +10,7 @@ export function HeroSection() {
 
   return (
     <section className="bg-background dark:bg-gray-900 py-20 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto text-center space-y-6">
+      <div className="max-w-4xl mx-auto text-center space-y-6 w-[90%] px-4 sm:px-6 lg:px-8">
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight tracking-tight">
           Get Your <span className="text-primary">Free Quote</span> for Reliable
           <br className="hidden sm:block" /> Man & Van Service
@@ -23,7 +23,7 @@ export function HeroSection() {
 
         <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6 mt-8">
           <Button
-            className="bg-orange-500 hover:bg-orange-600 text-white shadow-lg"
+            className="bg-purple-500 hover:bg-purple-600 text-white shadow-lg"
             size="lg"
             onClick={() => (window.location.href = "/booking")}
           >
@@ -86,7 +86,7 @@ export function HeroSection() {
 
                 <Button
                   type="submit"
-                  className="w-full bg-orange-500 hover:bg-orange-600 text-white"
+                  className="w-full bg-purple-500 hover:bg-purple-600 text-white"
                   size="lg"
                 >
                   Request Callback

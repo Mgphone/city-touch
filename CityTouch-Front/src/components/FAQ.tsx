@@ -15,7 +15,7 @@ export const FAQ = () => {
       id="faq"
       className="bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 border-t border-gray-300 dark:border-gray-700 py-24 px-6"
     >
-      <div className="max-w-4xl mx-auto px-6">
+      <div className="w-[90%] mx-auto px-4 sm:px-6 lg:px-8 ">
         <h2 className="text-3xl md:text-4xl font-bold mb-6 text-center">
           Frequently Asked{" "}
           <span className="bg-gradient-to-b from-primary/60 to-primary text-transparent bg-clip-text">

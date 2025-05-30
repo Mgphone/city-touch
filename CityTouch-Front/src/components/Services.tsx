@@ -85,30 +85,32 @@ export default function ServicesSection() {
   return (
     <section
       id="services"
-      className="bg-background dark:bg-gray-900 sm:px-6 lg:px-8 container mx-auto px-6 py-24 sm:py-32"
+      className="bg-background dark:bg-gray-900 py-5 sm:py-20"
     >
-      <div className="text-center mb-12">
-        <h2 className="text-3xl md:text-4xl font-bold mb-2">
-          <span className="bg-gradient-to-b from-indigo-400 to-purple-600 text-transparent bg-clip-text">
-            Our Services
-          </span>
-        </h2>
-        <p className="text-muted-foreground text-lg mt-2">
-          We provide a complete range of professional removal services.
-        </p>
-      </div>
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {services.map(({ icon, title, description }: Service) => (
-          <Card key={title} className="shadow hover:shadow-lg transition">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-4 mb-4">
-                {icon}
-                <h3 className="text-lg font-semibold">{title}</h3>
-              </div>
-              <p className="text-sm text-muted-foreground">{description}</p>
-            </CardContent>
-          </Card>
-        ))}
+      <div className="w-[90%] mx-auto px-4 sm:px-6 lg:px-8 ">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold mb-2">
+            <span className="bg-gradient-to-b from-indigo-400 to-purple-600 text-transparent bg-clip-text">
+              Our Services
+            </span>
+          </h2>
+          <p className="text-muted-foreground text-lg mt-2">
+            We provide a complete range of professional removal services.
+          </p>
+        </div>
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {services.map(({ icon, title, description }: Service) => (
+            <Card key={title} className="shadow hover:shadow-lg transition">
+              <CardContent className="p-6">
+                <div className="flex items-center gap-4 mb-4">
+                  {icon}
+                  <h3 className="text-lg font-semibold">{title}</h3>
+                </div>
+                <p className="text-sm text-muted-foreground">{description}</p>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </div>
     </section>
   );

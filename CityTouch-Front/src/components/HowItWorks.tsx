@@ -14,22 +14,22 @@ interface StepProps {
 
 const steps: StepProps[] = [
   {
-    icon: <CalendarCheckIcon className="h-10 w-10 text-orange-500" />,
+    icon: <CalendarCheckIcon className="h-10 w-10 text-purple-600" />,
     title: "Book",
     description: "Schedule your move easily with our quick booking system.",
   },
   {
-    icon: <PackageIcon className="h-10 w-10 text-orange-500" />,
+    icon: <PackageIcon className="h-10 w-10 text-purple-600" />,
     title: "Prepare",
     description: "Pack your items safely and get ready for moving day.",
   },
   {
-    icon: <TruckIcon className="h-10 w-10 text-orange-500" />,
+    icon: <TruckIcon className="h-10 w-10 text-purple-600" />,
     title: "Collect",
     description: "Our team arrives on time to collect your belongings.",
   },
   {
-    icon: <HomeIcon className="h-10 w-10 text-orange-500" />,
+    icon: <HomeIcon className="h-10 w-10 text-purple-600" />,
     title: "Deliver",
     description: "We deliver your items safely to your new location.",
   },
@@ -41,7 +41,7 @@ export const HowItWorks = () => {
       id="how-it-works"
       className="bg-background dark:bg-gray-900 py-5 sm:py-20"
     >
-      <div className="container mx-auto px-6 max-w-4xl text-center">
+      <div className="w-[90%] mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <h2 className="text-3xl md:text-4xl font-bold">
           How It{" "}
           <span className="bg-gradient-to-b from-primary/60 to-primary text-transparent bg-clip-text">
