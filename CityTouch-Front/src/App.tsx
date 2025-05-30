@@ -1,22 +1,24 @@
 // import { Navbar } from "./components/NavBar";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
-import { HeroSection } from "./components/HeroSection";
+
+import Home from "./pages/Home";
 import { ScrollToTop } from "./components/ScrollToTop";
-import { HowItWorks } from "./components/HowItWorks";
-import { About } from "./components/About";
-import ServicesSection from "./components/Services";
-import { FAQ } from "./components/FAQ";
+import Booking from "./pages/Booking";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
     <>
       <NavBar />
-      <HeroSection />
-      <HowItWorks />
-      <About />
-      <ServicesSection />
-      <FAQ />
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/booking" element={<Booking />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Router>
       <Footer />
       <ScrollToTop />
     </>

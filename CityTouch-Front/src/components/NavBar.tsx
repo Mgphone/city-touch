@@ -15,8 +15,7 @@ import {
 // import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { Button, buttonVariants } from "./ui/button.tsx";
 import { Menu } from "lucide-react";
-// import { ModeToggle } from "./mode-toggle.tsx";
-// import { LogoIcon } from "./Icons";
+import { Link } from "react-router-dom";
 
 interface RouteProps {
   href: string;
@@ -104,18 +103,22 @@ export const Navbar = () => {
                 </SheetHeader>
                 <nav className="flex flex-col justify-center items-center gap-2 mt-4">
                   {routeList.map(({ href, label }: RouteProps) => (
-                    <a
+                    <Link
                       rel="noreferrer noopener"
                       key={label}
-                      href={href}
+                      to={href}
                       onClick={() => setIsOpen(false)}
                       className={buttonVariants({ variant: "ghost" })}
                     >
                       {label}
-                    </a>
+                    </Link>
                   ))}
-                  <Button className="text-white bg-purple-500 hover:bg-purple-600 px-4 py-2 rounded-lg shadow transition">
-                    Book Now
+                  <Button
+                    className="bg-purple-500 hover:bg-purple-600 text-white shadow-lg"
+                    size="lg"
+                    onClick={() => (window.location.href = "/booking")}
+                  >
+                    Get Started
                   </Button>
                 </nav>
               </SheetContent>
@@ -136,8 +139,12 @@ export const Navbar = () => {
                 {route.label}
               </a>
             ))}
-            <Button className="text-white bg-purple-500 hover:bg-purple-600 px-4 py-2 rounded-lg shadow transition">
-              Book Now
+            <Button
+              className="bg-purple-500 hover:bg-purple-600 text-white shadow-lg"
+              size="lg"
+              onClick={() => (window.location.href = "/booking")}
+            >
+              Get Started
             </Button>
           </nav>
         </NavigationMenuList>
