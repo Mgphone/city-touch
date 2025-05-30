@@ -11,10 +11,7 @@ import { Check } from "lucide-react";
 
 export const FAQ = () => {
   return (
-    <section
-      id="faq"
-      className="bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 border-t border-gray-300 dark:border-gray-700 py-24 px-6"
-    >
+    <section id="faq" className="bg-background dark:bg-gray-900 py-5 sm:py-20">
       <div className="w-[90%] mx-auto px-4 sm:px-6 lg:px-8 ">
         <h2 className="text-3xl md:text-4xl font-bold mb-6 text-center">
           Frequently Asked{" "}
