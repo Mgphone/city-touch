@@ -1,16 +1,16 @@
-import pilot from "../assets/citytouch.svg";
+import aboutSvg from "../assets/about.svg";
 import { Statistics } from "./Statistics";
 
 export const About = () => {
   return (
     <section
       id="about"
-      className="container py-24 sm:py-32 mx-auto px-6 max-w-4xl text-center"
+      className="bg-background dark:bg-gray-900 sm:px-6 lg:px-8 container mx-auto px-6 py-24 sm:py-32"
     >
       <div className="bg-muted/50 border rounded-lg py-12">
         <div className="px-6 flex flex-col-reverse md:flex-row gap-8 md:gap-12 items-center md:items-center">
           <img
-            src={pilot}
+            src={aboutSvg}
             alt="City Touch team helping with removals"
             className="w-full max-w-[300px] object-contain rounded-lg"
           />

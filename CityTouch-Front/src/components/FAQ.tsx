@@ -4,8 +4,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { faq } from "./data/faqData";
-import { FAQProps } from "./data/type/faqProps";
+import { faq } from "@/data/faqData";
+import { FAQProps } from "@/data/type/faqProps";
+
 import { Check } from "lucide-react";
 
 export const FAQ = () => {
