@@ -15,7 +15,6 @@ import {
 // import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { Button, buttonVariants } from "./ui/button.tsx";
 import { Menu } from "lucide-react";
-import { Link } from "react-router-dom";
 
 interface RouteProps {
   href: string;
@@ -103,15 +102,15 @@ export const Navbar = () => {
                 </SheetHeader>
                 <nav className="flex flex-col justify-center items-center gap-2 mt-4">
                   {routeList.map(({ href, label }: RouteProps) => (
-                    <Link
+                    <a
                       rel="noreferrer noopener"
                       key={label}
-                      to={href}
+                      href={href}
                       onClick={() => setIsOpen(false)}
                       className={buttonVariants({ variant: "ghost" })}
                     >
                       {label}
-                    </Link>
+                    </a>
                   ))}
                   <Button
                     className="bg-purple-500 hover:bg-purple-600 text-white shadow-lg"
@@ -139,6 +138,7 @@ export const Navbar = () => {
                 {route.label}
               </a>
             ))}
+
             <Button
               className="bg-purple-500 hover:bg-purple-600 text-white shadow-lg"
               size="lg"
