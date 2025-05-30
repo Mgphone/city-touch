@@ -39,7 +39,7 @@ export const HowItWorks = () => {
   return (
     <section
       id="how-it-works"
-      className="bg-background dark:bg-gray-900 py-24 sm:py-32"
+      className="bg-background dark:bg-gray-900 py-5 sm:py-20"
     >
       <div className="container mx-auto px-6 max-w-4xl text-center">
         <h2 className="text-3xl md:text-4xl font-bold">

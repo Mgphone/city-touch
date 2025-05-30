@@ -9,18 +9,19 @@ export function HeroSection() {
   const [showEnquiry, setShowEnquiry] = useState(false);
 
   return (
-    <section className="bg-background dark:bg-gray-900 py-20 px-6">
+    <section className="bg-background dark:bg-gray-900 py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto text-center space-y-6">
-        <h1 className="text-5xl font-extrabold leading-tight tracking-tight">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight tracking-tight">
           Get Your <span className="text-primary">Free Quote</span> for Reliable
-          Man & Van Service
+          <br className="hidden sm:block" /> Man & Van Service
         </h1>
-        <p className="text-lg text-muted-foreground max-w-xl mx-auto">
+
+        <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
           Fast, friendly, and professional removals across London. Let us make
           your move smooth and hassle-free.
         </p>
 
-        <div className="flex justify-center gap-6">
+        <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6 mt-8">
           <Button
             className="bg-orange-500 hover:bg-orange-600 text-white shadow-lg"
             size="lg"
@@ -38,9 +39,9 @@ export function HeroSection() {
         </div>
 
         {showEnquiry && (
-          <Card className="mt-10 max-w-md mx-auto shadow-lg">
-            <CardContent>
-              <p className="mb-4 text-center text-sm text-muted-foreground">
+          <Card className="mt-10 max-w-md mx-auto shadow-xl">
+            <CardContent className="space-y-6">
+              <p className="text-sm text-muted-foreground text-center">
                 Fill out your email and phone number, and one of our friendly
                 team members will call you back promptly.
                 <br />
