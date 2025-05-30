@@ -1,13 +1,37 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
 import { Textarea } from "./ui/textarea";
-
+import emailjs from "@emailjs/browser";
 export function HeroSection() {
   const [showEnquiry, setShowEnquiry] = useState(false);
+  const formRef = useRef<HTMLFormElement | null>(null);
+  const [status, setStatus] = useState("");
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
+    if (!formRef.current) return;
+
+    setStatus("Sending...");
+
+    emailjs
+      .sendForm(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        formRef.current,
+        import.meta.env.VITE_EMAILJS_USER_ID
+      )
+      .then(() => {
+        setStatus("✅ Email sent successfully!");
+        formRef.current?.reset();
+      })
+      .catch((error) => {
+        console.error(error);
+        setStatus("❌ Failed to send. Try again later.");
+      });
+  };
   return (
     <section className="bg-background dark:bg-gray-900 py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto text-center space-y-6 w-[90%] px-4 sm:px-6 lg:px-8">
@@ -48,50 +72,64 @@ export function HeroSection() {
                 No pressure, no obligations — just a quick, free callback.
               </p>
 
-              <form className="space-y-5">
-                <div>
-                  <Label htmlFor="email">Email Address</Label>
-                  <Input
-                    type="email"
-                    id="email"
-                    placeholder="you@example.com"
-                    required
-                    autoComplete="email"
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="phone">Phone Number</Label>
-                  <Input
-                    type="tel"
-                    id="phone"
-                    placeholder="+44 7700 900123"
-                    required
-                    autoComplete="tel"
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="message">
-                    Briefly, what do you want to book?{" "}
-                    <span className="text-gray-400">(optional)</span>
-                  </Label>
-                  <Textarea
-                    id="message"
-                    placeholder="E.g. Small removal, packing help, etc."
-                    rows={3}
-                    className="resize-none"
-                  />
-                </div>
-
-                <Button
-                  type="submit"
-                  className="w-full bg-purple-500 hover:bg-purple-600 text-white"
-                  size="lg"
+              <>
+                <form
+                  ref={formRef}
+                  onSubmit={handleSubmit}
+                  className="space-y-5"
                 >
-                  Request Callback
-                </Button>
-              </form>
+                  <div>
+                    <Label htmlFor="user_email">Email Address</Label>
+                    <Input
+                      type="email"
+                      id="user_email"
+                      name="user_email"
+                      placeholder="you@example.com"
+                      required
+                      autoComplete="email"
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="user_phone">Phone Number</Label>
+                    <Input
+                      type="tel"
+                      id="user_phone"
+                      name="user_phone"
+                      placeholder="+44 7700 900123"
+                      required
+                      autoComplete="tel"
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="message">
+                      Briefly, what do you want to book?
+                    </Label>
+                    <Textarea
+                      id="message"
+                      name="message"
+                      placeholder="E.g. Small removal, packing help, etc."
+                      rows={3}
+                      className="resize-none"
+                    />
+                  </div>
+
+                  <Button
+                    type="submit"
+                    className="w-full bg-purple-500 hover:bg-purple-600 text-white"
+                    size="lg"
+                  >
+                    Request Callback
+                  </Button>
+                </form>
+
+                {status && (
+                  <p className="mt-4 text-center text-sm text-gray-600">
+                    {status}
+                  </p>
+                )}
+              </>
             </CardContent>
           </Card>
         )}
