@@ -48,17 +48,27 @@ export const Navbar = () => {
     <header className="sticky top-0 z-40 w-full h-30 bg-white border-b-[1px] dark:border-b-slate-700 dark:bg-background flex items-center">
       <NavigationMenu className="mx-auto">
         <NavigationMenuList className="container h-14 px-4 w-screen flex justify-between">
-          <NavigationMenuItem className="font-bold flex">
+          <NavigationMenuItem className="font-bold flex items-center">
             <a
               rel="noreferrer noopener"
               href="/"
-              className="ml-2 font-bold text-xl flex"
+              className="ml-2 font-bold text-xl flex items-center"
             >
+              {/* Image logo for medium and up */}
               <img
                 src="/cityTouch.png"
                 alt="City Touch Man and Van"
-                className="w-28 "
+                className="w-28 hidden md:block"
               />
+
+              {/* Text logo for small screens only */}
+              <span className="md:hidden text-xl font-extrabold tracking-tight">
+                City{" "}
+                <span className="bg-gradient-to-b from-indigo-400 to-purple-600 text-transparent bg-clip-text">
+                  Touch
+                </span>{" "}
+                Removal
+              </span>
             </a>
           </NavigationMenuItem>
 
