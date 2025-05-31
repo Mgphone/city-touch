@@ -2,6 +2,13 @@ import React from "react";
 import { useFormContext } from "react-hook-form";
 import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group";
 import { Label } from "@radix-ui/react-label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 export default function Step4() {
   const {
@@ -36,21 +43,21 @@ export default function Step4() {
             value="lift"
             id="lift"
             className="w-5 h-5 rounded-full border border-gray-400 bg-white
-              data-[state=checked]:bg-blue-600
-              data-[state=checked]:border-blue-600
-              relative
-              before:block
-              before:absolute
-              before:top-1/2
-              before:left-1/2
-              before:w-3
-              before:h-3
-              before:-translate-x-1/2
-              before:-translate-y-1/2
-              before:rounded-full
-              before:bg-white
-              data-[state=checked]:before:bg-white
-              focus:outline-none focus:ring-2 focus:ring-blue-500"
+  data-[state=checked]:bg-purple-600
+  data-[state=checked]:border-purple-600
+  relative
+  before:block
+  before:absolute
+  before:top-1/2
+  before:left-1/2
+  before:w-3
+  before:h-3
+  before:-translate-x-1/2
+  before:-translate-y-1/2
+  before:rounded-full
+  before:bg-white
+  data-[state=checked]:before:bg-white
+  focus:outline-none focus:ring-2 focus:ring-purple-500"
           />
           <label htmlFor="lift" className="text-gray-800 cursor-pointer">
             Lift
@@ -62,21 +69,21 @@ export default function Step4() {
             value="stairs"
             id="stairs"
             className="w-5 h-5 rounded-full border border-gray-400 bg-white
-              data-[state=checked]:bg-blue-600
-              data-[state=checked]:border-blue-600
-              relative
-              before:block
-              before:absolute
-              before:top-1/2
-              before:left-1/2
-              before:w-3
-              before:h-3
-              before:-translate-x-1/2
-              before:-translate-y-1/2
-              before:rounded-full
-              before:bg-white
-              data-[state=checked]:before:bg-white
-              focus:outline-none focus:ring-2 focus:ring-blue-500"
+  data-[state=checked]:bg-purple-600
+  data-[state=checked]:border-purple-600
+  relative
+  before:block
+  before:absolute
+  before:top-1/2
+  before:left-1/2
+  before:w-3
+  before:h-3
+  before:-translate-x-1/2
+  before:-translate-y-1/2
+  before:rounded-full
+  before:bg-white
+  data-[state=checked]:before:bg-white
+  focus:outline-none focus:ring-2 focus:ring-purple-500"
           />
           <label htmlFor="stairs" className="text-gray-800 cursor-pointer">
             Stairs
@@ -95,19 +102,27 @@ export default function Step4() {
       >
         Floor Count <span className="text-red-500">*</span>
       </Label>
-      <input
-        type="number"
-        id="floorCount"
-        {...register("floorCount", {
-          required: "Floor count is required",
-          min: { value: 0, message: "Floor count cannot be negative" },
-        })}
-        min={0}
-        className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition ${
-          errors.floorCount ? "border-red-500" : "border-gray-300"
-        }`}
-        placeholder="0"
-      />
+
+      <Select
+        onValueChange={(val) =>
+          setValue("floorCount", Number(val), { shouldValidate: true })
+        }
+        defaultValue={watch("floorCount")?.toString() || ""}
+      >
+        <SelectTrigger
+          className={`w-full ${errors.floorCount ? "border-red-500" : ""}`}
+        >
+          <SelectValue placeholder="Select floor count" />
+        </SelectTrigger>
+        <SelectContent>
+          {[...Array(10)].map((_, i) => (
+            <SelectItem key={i + 1} value={(i + 1).toString()}>
+              {i + 1}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+
       {errors.floorCount && typeof errors.floorCount.message === "string" && (
         <p className="text-red-600 text-sm mt-1">{errors.floorCount.message}</p>
       )}
