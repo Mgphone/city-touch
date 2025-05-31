@@ -1,5 +1,4 @@
 import { QuoteFormData } from "@/data/type/QuoteFormData";
-import React from "react";
 import { useFormContext } from "react-hook-form";
 
 export default function Step1() {

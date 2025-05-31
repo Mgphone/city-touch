@@ -1,4 +1,3 @@
-import React from "react";
 import { QuoteFormData } from "@/data/type/QuoteFormData";
 
 interface Props {

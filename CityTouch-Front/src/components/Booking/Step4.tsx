@@ -1,4 +1,3 @@
-import React from "react";
 import { useFormContext } from "react-hook-form";
 import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group";
 import { Label } from "@radix-ui/react-label";
@@ -12,7 +11,6 @@ import {
 
 export default function Step4() {
   const {
-    register,
     formState: { errors },
     setValue,
     watch,
