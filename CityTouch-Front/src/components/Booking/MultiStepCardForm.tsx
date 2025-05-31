@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
