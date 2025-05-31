@@ -10,6 +10,7 @@ import Step5 from "./Step5";
 import StepIndicators from "./StepIndicators";
 import { QuoteFormData } from "@/data/type/QuoteFormData";
 import Step6 from "./Step6";
+import { Button } from "../ui/button";
 
 const TOTAL_STEPS = 6;
 
@@ -64,20 +65,29 @@ export default function MultiStepForm() {
 
         <div className="flex justify-between">
           {step > 1 ? (
-            <button type="button" onClick={prev} className="btn btn-outline">
+            <Button variant="outline" type="button" onClick={prev}>
               Back
-            </button>
+            </Button>
           ) : (
             <div />
           )}
           {step < TOTAL_STEPS ? (
-            <button type="button" onClick={next} className="btn btn-primary">
+            <Button
+              variant="default"
+              className="bg-purple-600 text-white hover:bg-purple-700 focus:ring-purple-500"
+              type="button"
+              onClick={next}
+            >
               Next
-            </button>
+            </Button>
           ) : (
-            <button type="submit" className="btn btn-primary">
+            <Button
+              variant="default"
+              className="bg-purple-700 text-white hover:bg-purple-800 focus:ring-purple-600 shadow-md"
+              type="submit"
+            >
               Submit
-            </button>
+            </Button>
           )}
         </div>
       </form>

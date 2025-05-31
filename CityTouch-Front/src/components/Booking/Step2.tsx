@@ -1,6 +1,7 @@
 import React from "react";
 import { useFormContext, useFieldArray } from "react-hook-form";
 import { Location, QuoteFormData } from "@/data/type/QuoteFormData";
+import { Button } from "../ui/button";
 
 export default function Step2() {
   const {
@@ -32,13 +33,11 @@ export default function Step2() {
         Via Locations{" "}
         <span className="text-gray-500 text-base">(Optional)</span>
       </h2>
-
       {fields.length === 0 && (
         <p className="mb-4 text-gray-500 italic">
           You can add stopover locations if needed.
         </p>
       )}
-
       {fields.map((field, index) => (
         <div
           key={field.id}
@@ -93,24 +92,22 @@ export default function Step2() {
             </p>
           )}
 
-          <button
-            type="button"
+          <Button
+            variant="destructive"
             onClick={() => remove(index)}
-            className="mt-3 inline-block text-red-600 font-semibold hover:underline focus:outline-none"
             aria-label={`Remove via location ${index + 1}`}
           >
             Remove Stop
-          </button>
+          </Button>
         </div>
       ))}
-
-      <button
-        type="button"
+      <Button
+        variant="default"
+        className="bg-purple-600 text-white hover:bg-purple-700 focus:ring-purple-500"
         onClick={handleAddVia}
-        className="inline-block px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
       >
         + Add Via Stop
-      </button>
+      </Button>{" "}
     </div>
   );
 }
