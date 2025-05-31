@@ -55,8 +55,12 @@ export const HowItWorks = () => {
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {steps.map(({ icon, title, description }: StepProps) => (
-            <Card key={title} className="bg-muted/50">
+          {steps.map(({ icon, title, description }: StepProps, index) => (
+            <Card key={title} className="bg-muted/50 relative p-4">
+              {/* Step number circle */}
+              <div className="absolute -top-3 -left-3 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold shadow-lg">
+                {index + 1}
+              </div>
               <CardHeader>
                 <CardTitle className="grid gap-4 place-items-center">
                   {icon}
