@@ -3,7 +3,15 @@ import { ModeToggle } from "./mode-toggle";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 py-12 border-t border-gray-300 dark:border-gray-700">
+    <footer
+      className="py-12 border-t"
+      style={{
+        backgroundColor: "var(--footer-bg)",
+        color: "var(--footer-fg)",
+        borderColor: "var(--footer-border)",
+      }}
+    >
+      {" "}
       <div className="container mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 text-sm">
         {/* Brand */}
         <div className="flex flex-col items-start sm:items-center md:items-start">
@@ -106,7 +114,6 @@ const Footer = () => {
           <ModeToggle />
         </div>
       </div>
-
       {/* Copyright */}
       <div className="mt-12 border-t border-gray-300 dark:border-gray-700 pt-6">
         <p className="text-center text-gray-600 dark:text-gray-400 text-sm select-none">
