@@ -1,30 +1,116 @@
-import { useFormContext } from "react-hook-form";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import React from "react";
+import { useFormContext, useFieldArray } from "react-hook-form";
+import { Location, QuoteFormData } from "@/data/type/QuoteFormData";
 
 export default function Step2() {
   const {
+    control,
     register,
     formState: { errors },
-  } = useFormContext();
+    trigger,
+  } = useFormContext<QuoteFormData>();
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "viaLocations",
+  });
+
+  // Function to add new via location only if current last is valid
+  const handleAddVia = async () => {
+    // Validate all current viaLocations fields
+    const isValid = await trigger(`viaLocations`);
+
+    if (isValid) {
+      append({ place: "", fullAddress: "" } as Location);
+    }
+    // If not valid, react-hook-form will set errors and display messages automatically
+  };
 
   return (
-    <div className="space-y-4">
-      <Label htmlFor="email">Email</Label>
-      <Input
-        id="email"
-        type="email"
-        {...register("email", {
-          required: "Email is required",
-          pattern: {
-            value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-            message: "Invalid email format",
-          },
-        })}
-      />
-      {errors.email && (
-        <p className="text-red-500">{errors.email.message as string}</p>
+    <div className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-md">
+      <h2 className="text-2xl font-semibold mb-6 text-gray-800">
+        Via Locations{" "}
+        <span className="text-gray-500 text-base">(Optional)</span>
+      </h2>
+
+      {fields.length === 0 && (
+        <p className="mb-4 text-gray-500 italic">
+          You can add stopover locations if needed.
+        </p>
       )}
+
+      {fields.map((field, index) => (
+        <div
+          key={field.id}
+          className="mb-6 p-4 border border-gray-300 rounded-md bg-gray-50"
+        >
+          <label
+            htmlFor={`viaLocations.${index}.place`}
+            className="block mb-1 text-sm font-medium text-gray-700"
+          >
+            Place <span className="text-red-500">*</span>
+          </label>
+          <input
+            id={`viaLocations.${index}.place`}
+            {...register(`viaLocations.${index}.place`, {
+              required: "Place is required",
+            })}
+            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition ${
+              errors.viaLocations?.[index]?.place
+                ? "border-red-500"
+                : "border-gray-300"
+            }`}
+            placeholder="e.g. Stopover place"
+          />
+          {errors.viaLocations?.[index]?.place && (
+            <p className="mt-1 text-sm text-red-600">
+              {errors.viaLocations[index]?.place?.message}
+            </p>
+          )}
+
+          <label
+            htmlFor={`viaLocations.${index}.fullAddress`}
+            className="block mt-4 mb-1 text-sm font-medium text-gray-700"
+          >
+            Full Address <span className="text-red-500">*</span>
+          </label>
+          <textarea
+            id={`viaLocations.${index}.fullAddress`}
+            {...register(`viaLocations.${index}.fullAddress`, {
+              required: "Full address is required",
+            })}
+            className={`w-full px-3 py-2 border rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 transition ${
+              errors.viaLocations?.[index]?.fullAddress
+                ? "border-red-500"
+                : "border-gray-300"
+            }`}
+            rows={3}
+            placeholder="Street, City, Zip, Country"
+          />
+          {errors.viaLocations?.[index]?.fullAddress && (
+            <p className="mt-1 text-sm text-red-600">
+              {errors.viaLocations[index]?.fullAddress?.message}
+            </p>
+          )}
+
+          <button
+            type="button"
+            onClick={() => remove(index)}
+            className="mt-3 inline-block text-red-600 font-semibold hover:underline focus:outline-none"
+            aria-label={`Remove via location ${index + 1}`}
+          >
+            Remove Stop
+          </button>
+        </div>
+      ))}
+
+      <button
+        type="button"
+        onClick={handleAddVia}
+        className="inline-block px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+      >
+        + Add Via Stop
+      </button>
     </div>
   );
 }

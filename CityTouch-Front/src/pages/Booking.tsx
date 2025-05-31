@@ -1,8 +1,12 @@
+import MultiStepForm from "@/components/Booking/MultiStepCardForm";
 import React from "react";
-import Maintenance from "./Maintenance";
 
 const Booking: React.FC = () => {
-  return <Maintenance />;
+  return (
+    <div className="bg-background dark:bg-gray-900 py-5 sm:py-20">
+      <MultiStepForm />
+    </div>
+  );
 };
 
 export default Booking;
