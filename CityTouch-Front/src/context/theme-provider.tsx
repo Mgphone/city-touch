@@ -35,8 +35,6 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
       document.documentElement.className = `theme-${theme}`;
     }
     localStorage.setItem("theme", theme);
-
-    console.log("Theme applied:", document.documentElement.className);
   }, [theme]);
   return (
     <ThemeContext.Provider value={{ theme, setTheme }}>

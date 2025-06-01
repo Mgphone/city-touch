@@ -7,11 +7,9 @@ interface Props {
 export default function Step6({ formData }: Props) {
   const baseCost = 50;
 
-  // Always present
   const pickupFloors = formData.pickupLocation.floorCount;
   const dropoffFloors = formData.dropoffLocation.floorCount;
 
-  // Optional via locations floor count total
   let viaFloors = 0;
   let viaCount = 0;
 
@@ -27,68 +25,143 @@ export default function Step6({ formData }: Props) {
   const viaCost = viaCount * 15;
   const totalCost = baseCost + floorCost + viaCost;
 
+  // Friendly van size label formatting
+  const vanSizeLabels: Record<string, string> = {
+    small: "Small Van",
+    medium: "Medium Van",
+    large: "Large Van",
+    luton: "Luton Van",
+  };
+
   return (
-    <div className="max-w-md mx-auto p-6 bg-gray-50 rounded-md shadow-md space-y-6">
-      <h2 className="text-2xl font-semibold text-gray-900">Summary & Cost</h2>
+    <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-lg space-y-8 sm:space-y-10">
+      <h2 className="text-3xl font-bold text-gray-900 text-center sm:text-left">
+        Summary & Cost
+      </h2>
 
-      <div>
-        <h3 className="font-semibold">Pickup Location</h3>
-        <p>{formData.pickupLocation.place}</p>
-        <p>{formData.pickupLocation.fullAddress}</p>
-        <p>Access: {formData.pickupLocation.stairs}</p>
-        <p>
-          {pickupFloors} {pickupFloors === 1 ? "floor" : "floors"}
-        </p>
-      </div>
+      {/* Locations Summary */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        {/* Pickup */}
+        <section className="bg-gray-50 p-4 rounded-md shadow-sm">
+          <h3 className="text-lg font-semibold text-gray-800 mb-2">
+            Pickup Location
+          </h3>
+          <p className="text-gray-700 font-medium">
+            {formData.pickupLocation.place}
+          </p>
+          <p className="text-gray-600 text-sm mb-1">
+            {formData.pickupLocation.fullAddress}
+          </p>
+          <p className="text-sm text-gray-500">
+            Access:{" "}
+            <span className="capitalize">
+              {formData.pickupLocation.stairs || "None"}
+            </span>
+          </p>
+          <p className="text-sm text-gray-500">
+            {pickupFloors} {pickupFloors === 1 ? "floor" : "floors"}
+          </p>
+        </section>
 
-      {viaCount > 0 ? (
-        <div>
-          <h3 className="font-semibold">Via Locations</h3>
-          {formData.viaLocations!.map((loc, idx) => (
-            <div key={idx}>
-              <p>
-                {loc.place} — {loc.fullAddress}
-              </p>
-              <p>Access: {loc.stairs}</p>
-              <p>
-                {loc.floorCount} {loc.floorCount === 1 ? "floor" : "floors"}
-              </p>
+        {/* Via Locations */}
+        <section className="bg-gray-50 p-4 rounded-md shadow-sm">
+          <h3 className="text-lg font-semibold text-gray-800 mb-2">
+            Via Locations
+          </h3>
+          {viaCount > 0 ? (
+            <div className="space-y-3 max-h-48 overflow-y-auto pr-2">
+              {formData.viaLocations!.map((loc, idx) => (
+                <div
+                  key={idx}
+                  className="border-b border-gray-200 pb-2 last:border-0"
+                >
+                  <p className="font-medium text-gray-700">{loc.place}</p>
+                  <p className="text-gray-600 text-sm">{loc.fullAddress}</p>
+                  <p className="text-sm text-gray-500">
+                    Access:{" "}
+                    <span className="capitalize">{loc.stairs || "None"}</span>
+                  </p>
+                  <p className="text-sm text-gray-500">
+                    {loc.floorCount} {loc.floorCount === 1 ? "floor" : "floors"}
+                  </p>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      ) : (
-        <div>
-          <h3 className="font-semibold">Via Locations</h3>
-          <p>None</p>
-        </div>
-      )}
+          ) : (
+            <p className="text-gray-600 italic">None</p>
+          )}
+        </section>
 
-      <div>
-        <h3 className="font-semibold">Dropoff Location</h3>
-        <p>{formData.dropoffLocation.place}</p>
-        <p>{formData.dropoffLocation.fullAddress}</p>
-        <p>Access: {formData.dropoffLocation.stairs}</p>
-        <p>
-          {dropoffFloors} {dropoffFloors === 1 ? "floor" : "floors"}
-        </p>
+        {/* Dropoff */}
+        <section className="bg-gray-50 p-4 rounded-md shadow-sm">
+          <h3 className="text-lg font-semibold text-gray-800 mb-2">
+            Dropoff Location
+          </h3>
+          <p className="text-gray-700 font-medium">
+            {formData.dropoffLocation.place}
+          </p>
+          <p className="text-gray-600 text-sm mb-1">
+            {formData.dropoffLocation.fullAddress}
+          </p>
+          <p className="text-sm text-gray-500">
+            Access:{" "}
+            <span className="capitalize">
+              {formData.dropoffLocation.stairs || "None"}
+            </span>
+          </p>
+          <p className="text-sm text-gray-500">
+            {dropoffFloors} {dropoffFloors === 1 ? "floor" : "floors"}
+          </p>
+        </section>
       </div>
 
-      <div>
-        <h3 className="font-semibold">Date & Time</h3>
-        <p>
+      {/* Date & Time */}
+      <section className="bg-gray-50 p-4 rounded-md shadow-sm max-w-md mx-auto sm:mx-0">
+        <h3 className="text-lg font-semibold text-gray-800 mb-2">
+          Date & Time
+        </h3>
+        <p className="text-gray-700 text-base text-center sm:text-left">
           {formData.date} at {formData.time}
         </p>
-      </div>
+      </section>
 
-      <div>
-        <h3 className="font-semibold">Contact Information</h3>
-        <p>Name: {formData.name}</p>
-        <p>Email: {formData.email}</p>
-        <p>Phone: {formData.phone}</p>
-      </div>
+      {/* Contact Info */}
+      <section className="bg-gray-50 p-4 rounded-md shadow-sm max-w-md mx-auto sm:mx-0 space-y-1">
+        <h3 className="text-lg font-semibold text-gray-800 mb-2">
+          Contact Information
+        </h3>
+        <p className="text-gray-700 text-base">Name: {formData.name}</p>
+        <p className="text-gray-700 text-base">Email: {formData.email}</p>
+        <p className="text-gray-700 text-base">Phone: {formData.phone}</p>
+      </section>
 
-      <div className="mt-6 text-xl font-bold">
-        Total Cost: £{totalCost.toFixed(2)}
+      {/* Additional Booking Details */}
+      <section className="bg-gray-50 p-4 rounded-md shadow-sm max-w-md mx-auto sm:mx-0 space-y-1">
+        <h3 className="text-lg font-semibold text-gray-800 mb-2">
+          Booking Details
+        </h3>
+        <p className="text-gray-700 text-base">
+          Van Size:{" "}
+          <span className="capitalize font-medium">
+            {vanSizeLabels[formData.vanSize]}
+          </span>
+        </p>
+        <p className="text-gray-700 text-base">
+          Duration:{" "}
+          <span className="font-medium">
+            {formData.durationHours}{" "}
+            {formData.durationHours === 1 ? "hour" : "hours"}
+          </span>
+        </p>
+        <p className="text-gray-700 text-base">
+          Helpers Required:{" "}
+          <span className="font-medium">{formData.menRequired}</span>
+        </p>
+      </section>
+
+      {/* Total Cost */}
+      <div className="text-center sm:text-right text-2xl font-extrabold text-green-700">
+        Total Cost: <span className="text-3xl">£{totalCost.toFixed(2)}</span>
       </div>
     </div>
   );
