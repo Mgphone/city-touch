@@ -46,15 +46,22 @@ export default function MultiStepForm() {
     console.log("Final data submitted:", data);
     alert("Form submitted! Check console.");
   };
-
-  const next = async () => {
-    // Trigger validation for all fields for simplicity,
-    // or customize to validate step-specific fields if needed
-    const valid = await trigger();
-    if (valid) setStep((prev) => Math.min(prev + 1, TOTAL_STEPS));
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const prev = () => setStep((prev) => Math.max(prev - 1, 1));
+  const next = async () => {
+    const valid = await trigger();
+    if (valid) {
+      setStep((prev) => Math.min(prev + 1, TOTAL_STEPS));
+      scrollToTop();
+    }
+  };
+
+  const prev = () => {
+    setStep((prev) => Math.max(prev - 1, 1));
+    scrollToTop();
+  };
 
   return (
     <FormProvider {...methods}>
