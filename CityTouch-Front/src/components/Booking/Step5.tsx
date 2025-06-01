@@ -8,7 +8,7 @@ export default function Step5() {
   } = useFormContext();
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white rounded-md shadow-md space-y-6">
+    <div className="max-w-md mx-auto p-6 bg-gray-50 rounded-md shadow-md space-y-6">
       <h2 className="text-2xl font-semibold mb-6 text-gray-900">
         Contact Information
       </h2>

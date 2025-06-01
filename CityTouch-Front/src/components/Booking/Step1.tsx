@@ -27,7 +27,7 @@ export default function Step1() {
   }, [stairs, setValue]);
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
+    <div className="max-w-md mx-auto p-6 bg-gray-50 rounded-lg shadow-md">
       <h2 className="text-2xl font-semibold mb-6 text-gray-800">
         Pickup Location
       </h2>
@@ -89,7 +89,7 @@ export default function Step1() {
         {...register("pickupLocation.stairs", {
           required: "Please select stairs access",
         })}
-        className={`w-full px-4 py-2 border rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition ${
+        className={`w-full px-4 py-2 border rounded-md bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 transition ${
           errors.pickupLocation?.stairs ? "border-red-500" : "border-gray-300"
         }`}
         defaultValue=""

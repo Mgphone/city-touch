@@ -36,7 +36,7 @@ export default function Step4() {
   }, [selectedDate, trigger]);
 
   return (
-    <div className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-md">
+    <div className="max-w-lg mx-auto p-6 bg-gray-50 rounded-lg shadow-md">
       <h2 className="text-2xl font-semibold mb-6 text-gray-800">Date & Time</h2>
 
       {/* Date */}

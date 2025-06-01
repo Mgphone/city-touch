@@ -41,7 +41,7 @@ export default function Step2() {
   };
 
   return (
-    <div className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-md">
+    <div className="max-w-lg mx-auto p-6 bg-gray-50 rounded-lg shadow-md">
       <h2 className="text-2xl font-semibold mb-6 text-gray-800">
         Via Locations{" "}
         <span className="text-gray-500 text-base">(Optional)</span>
@@ -111,7 +111,7 @@ export default function Step2() {
               {...register(`viaLocations.${index}.stairs`, {
                 required: "Please select stairs access",
               })}
-              className={`w-full px-3 py-2 border rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition ${
+              className={`w-full px-3 py-2 border rounded-md bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 transition ${
                 errors.viaLocations?.[index]?.stairs
                   ? "border-red-500"
                   : "border-gray-300"

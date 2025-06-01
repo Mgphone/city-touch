@@ -28,7 +28,7 @@ export default function Step6({ formData }: Props) {
   const totalCost = baseCost + floorCost + viaCost;
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white rounded-md shadow-md space-y-6">
+    <div className="max-w-md mx-auto p-6 bg-gray-50 rounded-md shadow-md space-y-6">
       <h2 className="text-2xl font-semibold text-gray-900">Summary & Cost</h2>
 
       <div>
