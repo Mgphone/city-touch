@@ -1,128 +1,84 @@
+import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
-import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group";
-import { Label } from "@radix-ui/react-label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
+import { QuoteFormData } from "@/data/type/QuoteFormData";
 
 export default function Step4() {
   const {
-    formState: { errors },
-    setValue,
+    register,
     watch,
-  } = useFormContext();
+    trigger,
+    formState: { errors },
+  } = useFormContext<QuoteFormData>();
 
-  const stairsValue = watch("stairs");
+  const selectedDate = watch("date");
+  const now = new Date();
+
+  const todayStr = now.toISOString().split("T")[0];
+  const minTimeDate = new Date(now.getTime() + 3 * 60 * 60 * 1000);
+  const pad = (num: number) => num.toString().padStart(2, "0");
+  const minTimeStr = `${pad(minTimeDate.getHours())}:${pad(
+    minTimeDate.getMinutes()
+  )}`;
+
+  const validateTime = (value: string) => {
+    if (!value) return "Time is required";
+    if (!selectedDate) return true;
+    if (selectedDate === todayStr && value < minTimeStr) {
+      return `Time must be at least ${minTimeStr}`;
+    }
+    return true;
+  };
+
+  useEffect(() => {
+    if (selectedDate) {
+      trigger("time");
+    }
+  }, [selectedDate, trigger]);
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white rounded-md shadow-md">
-      <h2 className="text-2xl font-semibold mb-6 text-gray-900">
-        Stairs and Floor Count
-      </h2>
+    <div className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-md">
+      <h2 className="text-2xl font-semibold mb-6 text-gray-800">Date & Time</h2>
 
-      {/* Stairs Radio */}
-      <Label className="block mb-2 text-sm font-medium text-gray-700">
-        Stairs <span className="text-red-500">*</span>
-      </Label>
-
-      <RadioGroup
-        onValueChange={(val) =>
-          setValue("stairs", val, { shouldValidate: true })
-        }
-        value={stairsValue || ""}
-        className="flex space-x-6 mb-4"
+      {/* Date */}
+      <label
+        htmlFor="date"
+        className="block mb-2 text-sm font-medium text-gray-700"
       >
-        <div className="flex items-center space-x-2">
-          <RadioGroupItem
-            value="lift"
-            id="lift"
-            className="w-5 h-5 rounded-full border border-gray-400 bg-white
-  data-[state=checked]:bg-purple-600
-  data-[state=checked]:border-purple-600
-  relative
-  before:block
-  before:absolute
-  before:top-1/2
-  before:left-1/2
-  before:w-3
-  before:h-3
-  before:-translate-x-1/2
-  before:-translate-y-1/2
-  before:rounded-full
-  before:bg-white
-  data-[state=checked]:before:bg-white
-  focus:outline-none focus:ring-2 focus:ring-purple-500"
-          />
-          <label htmlFor="lift" className="text-gray-800 cursor-pointer">
-            Lift
-          </label>
-        </div>
-
-        <div className="flex items-center space-x-2">
-          <RadioGroupItem
-            value="stairs"
-            id="stairs"
-            className="w-5 h-5 rounded-full border border-gray-400 bg-white
-  data-[state=checked]:bg-purple-600
-  data-[state=checked]:border-purple-600
-  relative
-  before:block
-  before:absolute
-  before:top-1/2
-  before:left-1/2
-  before:w-3
-  before:h-3
-  before:-translate-x-1/2
-  before:-translate-y-1/2
-  before:rounded-full
-  before:bg-white
-  data-[state=checked]:before:bg-white
-  focus:outline-none focus:ring-2 focus:ring-purple-500"
-          />
-          <label htmlFor="stairs" className="text-gray-800 cursor-pointer">
-            Stairs
-          </label>
-        </div>
-      </RadioGroup>
-
-      {errors.stairs && typeof errors.stairs.message === "string" && (
-        <p className="text-red-600 text-sm mt-1">{errors.stairs.message}</p>
+        Date <span className="text-red-500">*</span>
+      </label>
+      <input
+        type="date"
+        id="date"
+        min={todayStr}
+        {...register("date", { required: "Date is required" })}
+        className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition ${
+          errors.date ? "border-red-500" : "border-gray-300"
+        }`}
+      />
+      {errors.date && (
+        <p className="mt-1 text-sm text-red-600">{errors.date.message}</p>
       )}
 
-      {/* Floor Count */}
-      <Label
-        htmlFor="floorCount"
-        className="block mb-2 mt-6 text-sm font-medium text-gray-700"
+      {/* Time */}
+      <label
+        htmlFor="time"
+        className="block mt-6 mb-2 text-sm font-medium text-gray-700"
       >
-        Floor Count <span className="text-red-500">*</span>
-      </Label>
-
-      <Select
-        onValueChange={(val) =>
-          setValue("floorCount", Number(val), { shouldValidate: true })
-        }
-        defaultValue={watch("floorCount")?.toString() || ""}
-      >
-        <SelectTrigger
-          className={`w-full ${errors.floorCount ? "border-red-500" : ""}`}
-        >
-          <SelectValue placeholder="Select floor count" />
-        </SelectTrigger>
-        <SelectContent>
-          {[...Array(10)].map((_, i) => (
-            <SelectItem key={i + 1} value={(i + 1).toString()}>
-              {i + 1}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-
-      {errors.floorCount && typeof errors.floorCount.message === "string" && (
-        <p className="text-red-600 text-sm mt-1">{errors.floorCount.message}</p>
+        Time <span className="text-red-500">*</span>
+      </label>
+      <input
+        type="time"
+        id="time"
+        {...register("time", {
+          validate: validateTime,
+        })}
+        min={selectedDate === todayStr ? minTimeStr : undefined}
+        className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition ${
+          errors.time ? "border-red-500" : "border-gray-300"
+        }`}
+      />
+      {errors.time && (
+        <p className="mt-1 text-sm text-red-600">{errors.time.message}</p>
       )}
     </div>
   );

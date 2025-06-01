@@ -17,13 +17,21 @@ const TOTAL_STEPS = 6;
 export default function MultiStepForm() {
   const methods = useForm<QuoteFormData>({
     defaultValues: {
-      pickupLocation: { place: "", fullAddress: "" },
+      pickupLocation: {
+        place: "",
+        fullAddress: "",
+        stairs: "",
+        floorCount: 0,
+      },
       viaLocations: [],
-      dropoffLocation: { place: "", fullAddress: "" },
+      dropoffLocation: {
+        place: "",
+        fullAddress: "",
+        stairs: "",
+        floorCount: 0,
+      },
       date: "",
       time: "",
-      stairs: "",
-      floorCount: 0,
       name: "",
       email: "",
       phone: "",

@@ -5,10 +5,26 @@ interface Props {
 }
 
 export default function Step6({ formData }: Props) {
-  // Example cost calculation logic
   const baseCost = 50;
-  const floorCost = formData.floorCount * 10;
-  const viaCost = (formData.viaLocations?.length || 0) * 15;
+
+  // Always present
+  const pickupFloors = formData.pickupLocation.floorCount;
+  const dropoffFloors = formData.dropoffLocation.floorCount;
+
+  // Optional via locations floor count total
+  let viaFloors = 0;
+  let viaCount = 0;
+
+  if (formData.viaLocations && formData.viaLocations.length > 0) {
+    viaFloors = formData.viaLocations.reduce(
+      (sum, loc) => sum + loc.floorCount,
+      0
+    );
+    viaCount = formData.viaLocations.length;
+  }
+
+  const floorCost = (pickupFloors + dropoffFloors + viaFloors) * 10;
+  const viaCost = viaCount * 15;
   const totalCost = baseCost + floorCost + viaCost;
 
   return (
@@ -19,16 +35,31 @@ export default function Step6({ formData }: Props) {
         <h3 className="font-semibold">Pickup Location</h3>
         <p>{formData.pickupLocation.place}</p>
         <p>{formData.pickupLocation.fullAddress}</p>
+        <p>Access: {formData.pickupLocation.stairs}</p>
+        <p>
+          {pickupFloors} {pickupFloors === 1 ? "floor" : "floors"}
+        </p>
       </div>
 
-      {formData.viaLocations?.length > 0 && (
+      {viaCount > 0 ? (
         <div>
           <h3 className="font-semibold">Via Locations</h3>
-          {formData.viaLocations.map((loc, idx) => (
-            <p key={idx}>
-              {loc.place} — {loc.fullAddress}
-            </p>
+          {formData.viaLocations!.map((loc, idx) => (
+            <div key={idx}>
+              <p>
+                {loc.place} — {loc.fullAddress}
+              </p>
+              <p>Access: {loc.stairs}</p>
+              <p>
+                {loc.floorCount} {loc.floorCount === 1 ? "floor" : "floors"}
+              </p>
+            </div>
           ))}
+        </div>
+      ) : (
+        <div>
+          <h3 className="font-semibold">Via Locations</h3>
+          <p>None</p>
         </div>
       )}
 
@@ -36,20 +67,16 @@ export default function Step6({ formData }: Props) {
         <h3 className="font-semibold">Dropoff Location</h3>
         <p>{formData.dropoffLocation.place}</p>
         <p>{formData.dropoffLocation.fullAddress}</p>
+        <p>Access: {formData.dropoffLocation.stairs}</p>
+        <p>
+          {dropoffFloors} {dropoffFloors === 1 ? "floor" : "floors"}
+        </p>
       </div>
 
       <div>
         <h3 className="font-semibold">Date & Time</h3>
         <p>
           {formData.date} at {formData.time}
-        </p>
-      </div>
-
-      <div>
-        <h3 className="font-semibold">Stairs & Floor Count</h3>
-        <p>{formData.stairs}</p>
-        <p>
-          {formData.floorCount} {formData.floorCount === 1 ? "floor" : "floors"}
         </p>
       </div>
 
