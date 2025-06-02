@@ -1,14 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-type Theme =
-  | "light"
-  | "dark"
-  | "system"
-  | "red"
-  | "blue"
-  | "green"
-  | "yellow"
-  | "purple";
+type Theme = "light" | "dark" | "red" | "blue" | "green" | "yellow" | "purple";
 
 interface ThemeContextType {
   theme: Theme;
@@ -21,22 +13,17 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [theme, setTheme] = useState<Theme>(() => {
-    return (localStorage.getItem("theme") as Theme) || "system";
+    return localStorage.getItem("theme") as Theme;
   });
   useEffect(() => {
-    if (theme === "system") {
-      const systemDark = window.matchMedia(
-        "(prefers-color-scheme: dark)"
-      ).matches;
-      document.documentElement.className = systemDark ? "dark" : "light";
-    } else if (theme === "light" || theme === "dark") {
+    if (theme === "light" || theme === "dark") {
+
       document.documentElement.className = theme;
     } else {
       document.documentElement.className = `theme-${theme}`;
     }
     localStorage.setItem("theme", theme);
 
-    // console.log("Theme applied:", document.documentElement.className);
   }, [theme]);
   return (
     <ThemeContext.Provider value={{ theme, setTheme }}>
