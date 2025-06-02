@@ -1,19 +1,27 @@
 // types.ts or bookingForm.ts
 // export type Location = {
-//   userInput: string;         // What the user typed (raw input)
-//   fullAddress: string;       // From Mapbox (place_name)
+//   userInput: string; // What the user typed (raw input)
+//   fullAddress: string; // From Mapbox (place_name)
 //   latitude: number;
 //   longitude: number;
 //   postcode?: string;
 //   stairs: "lift" | "stairs" | ""; // Required
-//   floorCount: number;             // Required
+//   floorCount: number; // Required
 // };
 
+// export type Location = {
+//   place: string;
+//   fullAddress: string;
+//   stairs: "lift" | "stairs" | ""; // Required
+//   floorCount: number; // Required
+// };
 export type Location = {
   place: string;
   fullAddress: string;
-  stairs: "lift" | "stairs" | ""; // Required
-  floorCount: number; // Required
+  stairs: "lift" | "stairs" | "";
+  floorCount: number;
+  latitude?: number | null;
+  longitude?: number | null;
 };
 
 export type QuoteFormData = {
