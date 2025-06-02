@@ -17,11 +17,13 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
   });
   useEffect(() => {
     if (theme === "light" || theme === "dark") {
+
       document.documentElement.className = theme;
     } else {
       document.documentElement.className = `theme-${theme}`;
     }
     localStorage.setItem("theme", theme);
+
   }, [theme]);
   return (
     <ThemeContext.Provider value={{ theme, setTheme }}>
