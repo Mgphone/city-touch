@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import {
   format,
@@ -17,6 +17,10 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import { QuoteFormData } from "@/data/type/QuoteFormData";
+import { useBooking } from "@/context/bookingContext";
+import { validateLocations } from "@/lib/validateLocation";
+import { checkDuration } from "@/lib/checkDuration";
+import { Clock } from "lucide-react";
 
 export default function Step4() {
   const {
@@ -26,7 +30,34 @@ export default function Step4() {
     trigger,
     formState: { errors },
   } = useFormContext<QuoteFormData>();
+  //will see what is my context look like
+  const [durationTravel, setDurationTravel] = useState<{
+    hours: number;
+    minutes: number;
+  } | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
+  const { bookingData } = useBooking();
+
+  const locationErrors = validateLocations(bookingData);
+  useEffect(() => {
+    if (locationErrors.length === 0) {
+      setIsLoading(true);
+      (async () => {
+        try {
+          const duration = await checkDuration(bookingData);
+          setDurationTravel(duration);
+        } catch (error) {
+          console.error("Error getting duration:", error);
+          setDurationTravel(null);
+        } finally {
+          setIsLoading(false);
+        }
+      })();
+    } else {
+      setDurationTravel(null);
+    }
+  }, [bookingData]);
   const now = new Date();
   const twoHoursLater = addMinutes(now, 120);
 
@@ -81,10 +112,48 @@ export default function Step4() {
     ((i + 2) * 0.5).toString()
   );
 
-  return (
+  return locationErrors.length > 0 ? (
+    <div className="max-w-xl mx-auto p-6 bg-white rounded-xl shadow-md space-y-4">
+      <div className="p-4 bg-red-100 text-red-700 border border-red-300 rounded-md">
+        <h3 className="text-lg font-semibold mb-2">
+          Missing or Invalid Location Info
+        </h3>
+        <ul className="list-disc list-inside text-sm">
+          {locationErrors.map((err, idx) => (
+            <li key={idx}>{err}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  ) : (
     <div className="max-w-xl mx-auto p-6 bg-white rounded-xl shadow-md space-y-5">
       <h2 className="text-2xl font-semibold text-gray-800 mb-6">Date & Time</h2>
-
+      {/* Estimated Travel Duration */}
+      <div className="flex items-center space-x-2">
+        {isLoading ? (
+          <div className="flex items-center space-x-2 text-blue-500">
+            <Clock size={20} />
+            <div className="flex space-x-1">
+              <span className="w-2 h-2 bg-blue-500 rounded-full animate-bounce [animation-delay:-0.3s]"></span>
+              <span className="w-2 h-2 bg-blue-500 rounded-full animate-bounce [animation-delay:-0.15s]"></span>
+              <span className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"></span>
+            </div>
+            <span className="text-sm text-gray-700">
+              Calculating travel time
+            </span>
+          </div>
+        ) : (
+          durationTravel && (
+            <div className="flex items-center space-x-2 text-green-700">
+              <Clock size={20} />
+              <span className="text-sm">
+                Your estimated travel time is {durationTravel.hours}h{" "}
+                {durationTravel.minutes}m.
+              </span>
+            </div>
+          )
+        )}
+      </div>
       {/* Date */}
       <div className="flex flex-col md:flex-row md:items-center md:space-x-4">
         <label className="w-full md:w-1/3 text-sm font-medium text-gray-700">
