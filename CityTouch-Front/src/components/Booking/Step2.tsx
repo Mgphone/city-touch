@@ -157,8 +157,8 @@ export default function Step2() {
                   </SelectTrigger>
                   <SelectContent>
                     {[...Array(10)].map((_, i) => (
-                      <SelectItem key={i + 1} value={(i + 1).toString()}>
-                        {i + 1}
+                      <SelectItem key={i} value={i.toString()}>
+                        {i === 0 ? "No Stair" : i}
                       </SelectItem>
                     ))}
                   </SelectContent>

@@ -239,7 +239,7 @@ export default function Step4() {
           <SelectContent>
             {menOptions.map((num) => (
               <SelectItem key={num} value={num.toString()}>
-                {num}
+                {num === 0 ? "No Help" : num}
               </SelectItem>
             ))}
           </SelectContent>
