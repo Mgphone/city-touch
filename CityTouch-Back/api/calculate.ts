@@ -4,7 +4,7 @@ import sampleData from "../data/sampleData.json";
 import connect from "../lib/mongoose";
 import PricingRules from "../models/PricingRules";
 import { QuoteFormData } from "../type/QuoteFormData";
-
+import { handleCors } from "../util/cors";
 const MAPBOX_TOKEN = process.env.MAPBOX_TOKEN!;
 
 const getDrivingDistanceMiles = async (
@@ -34,10 +34,12 @@ const getDrivingDistanceMiles = async (
 };
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  if (req.method !== "GET") {
-    return res.status(405).json({ message: "Only GET method is allowed." });
+  if (handleCors(req, res)) {
+    return; // Preflight done, stop here
   }
-
+  if (req.method !== "POST") {
+    return res.status(405).json({ message: "Only POST method is allowed." });
+  }
   try {
     await connect();
 
@@ -53,7 +55,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       durationHours,
       vanSize,
       menRequired,
-    } = sampleData as QuoteFormData;
+    } = req.body as QuoteFormData;
 
     const allLocations = [pickupLocation, ...viaLocations, dropoffLocation];
 
@@ -107,7 +109,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         miles: parseFloat(distanceInMiles.toFixed(2)),
       },
       rules: rules,
-      inputData: sampleData,
       routeCoordinates: coordinates,
     });
   } catch (error: any) {
