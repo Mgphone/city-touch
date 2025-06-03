@@ -26,11 +26,11 @@ export default function MultiStepForm() {
   const [loading, setLoading] = useState(false); // ✅ loading state
 
   const API_URL = import.meta.env.VITE_BACK_URL;
-
+  const fullURL = `${API_URL}calculate`;
   const onSubmit = async (data: QuoteFormData) => {
     try {
       setLoading(true); // ✅ Start loading
-      const response = await axios.post(API_URL, data);
+      const response = await axios.post(fullURL, data);
       const { breakdown, rules, totalCost, totalMiles } = response.data;
 
       // ✅ Merge backend values into bookingData context
