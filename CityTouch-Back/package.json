@@ -13,5 +13,8 @@
     "dotenv": "^16.5.0",
     "mongoose": "^8.15.1",
     "vercel": "^42.3.0"
+  },
+  "devDependencies": {
+    "@types/node-fetch": "^2.6.12"
   }
 }
