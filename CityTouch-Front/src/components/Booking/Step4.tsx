@@ -71,23 +71,43 @@ export default function Step4() {
 
   const timeOptions = useMemo(() => {
     const options: string[] = [];
-    const startHour = selectedDate === minDate ? twoHoursLater.getHours() : 6;
-    const startMinute =
-      selectedDate === minDate
-        ? twoHoursLater.getMinutes() <= 30
-          ? 30
-          : 0
-        : 0;
+    const todayFormatted = format(now, "yyyy-MM-dd");
 
-    let current = setHours(setMinutes(new Date(), startMinute), startHour);
-    const end = setHours(setMinutes(new Date(), 0), 22);
+    let currentStartHour: number;
+    let currentStartMinute: number;
+
+    const isSelectedDateToday = selectedDate === todayFormatted;
+
+    if (isSelectedDateToday) {
+      // If selecting today, apply the 2-hour buffer from now
+      currentStartHour = twoHoursLater.getHours();
+      currentStartMinute = twoHoursLater.getMinutes() <= 30 ? 30 : 0;
+    } else {
+      // If selecting any other day (tomorrow or later), start from 6 AM
+      currentStartHour = 6;
+      currentStartMinute = 0;
+    }
+
+    const baseDateForTimeGeneration = selectedDate
+      ? new Date(selectedDate)
+      : new Date(); // Fallback if selectedDate is not yet set
+
+    let current = setHours(
+      setMinutes(baseDateForTimeGeneration, currentStartMinute),
+      currentStartHour
+    );
+    const end = setHours(setMinutes(baseDateForTimeGeneration, 0), 22);
+
+    if (isBefore(end, current)) {
+      return [];
+    }
 
     while (current <= end) {
       options.push(format(current, "HH:mm"));
       current = addMinutes(current, 30);
     }
     return options;
-  }, [selectedDate, minDate, twoHoursLater]);
+  }, [selectedDate, twoHoursLater, now]); // Added 'now' as a dependency for todayFormatted calculation
 
   useEffect(() => {
     if (selectedDate && selectedTime) {
