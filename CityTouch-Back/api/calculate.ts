@@ -67,12 +67,26 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       latitude: loc.latitude!,
       longitude: loc.longitude!,
     }));
+    if (
+      pathLocations.some((loc) => loc.latitude == null || loc.longitude == null)
+    ) {
+      return res
+        .status(400)
+        .json({ message: "All locations must have latitude and longitude." });
+    }
+    if (pathLocations.length < 2) {
+      return res.status(400).json({
+        message: "At least two locations are required to calculate distance.",
+      });
+    }
 
     const { distanceInMiles, coordinates } = await getDrivingDistanceMiles(
       pathLocations
     );
 
-    const mileageCost = distanceInMiles * rules.mileRate;
+    const mileageCost = parseFloat(
+      (distanceInMiles * rules.mileRate).toFixed(2)
+    );
     const vanCost = rules.vanSizeRates[vanSize];
     const menCost = rules.manPerHour * durationHours * menRequired;
     const durationCost = durationHours * 2 * rules.halfHourRate;
@@ -83,6 +97,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(200).json({
       success: true,
       totalCost: parseFloat(totalCost.toFixed(2)),
+      totalMiles: parseFloat(distanceInMiles.toFixed(2)),
       breakdown: {
         stairCost: parseFloat(stairCost.toFixed(2)),
         mileageCost: parseFloat(mileageCost.toFixed(2)),
@@ -92,7 +107,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         miles: parseFloat(distanceInMiles.toFixed(2)),
       },
       rules: rules,
-      sampleData: sampleData,
+      inputData: sampleData,
       routeCoordinates: coordinates,
     });
   } catch (error: any) {
