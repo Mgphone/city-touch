@@ -1,20 +1,3 @@
-// types.ts or bookingForm.ts
-// export type Location = {
-//   userInput: string; // What the user typed (raw input)
-//   fullAddress: string; // From Mapbox (place_name)
-//   latitude: number;
-//   longitude: number;
-//   postcode?: string;
-//   stairs: "lift" | "stairs" | ""; // Required
-//   floorCount: number; // Required
-// };
-
-// export type Location = {
-//   place: string;
-//   fullAddress: string;
-//   stairs: "lift" | "stairs" | ""; // Required
-//   floorCount: number; // Required
-// };
 export type Location = {
   place: string;
   fullAddress: string;
@@ -39,4 +22,65 @@ export type QuoteFormData = {
   name: string;
   email: string;
   phone: string;
+};
+
+// Optional pricing calculation result types
+export type PricingRules = {
+  vanSizeRates: {
+    small: number;
+    medium: number;
+    large: number;
+    luton: number;
+  };
+  _id: string;
+  stairPerFloor: number;
+  mileRate: number;
+  manPerHour: number;
+  halfHourRate: number;
+  __v: number;
+};
+
+export type Breakdown = {
+  stairCost: number;
+  mileageCost: number;
+  vanCost: number;
+  menCost: number;
+  durationCost: number;
+  miles: number;
+};
+
+// Full booking data including optional pricing results
+export type BookingData = QuoteFormData & {
+  breakdown?: Breakdown;
+  rules?: PricingRules;
+  totalCost?: number;
+  totalMiles?: number;
+};
+
+// Default values for new forms
+export const defaultLocation: Location = {
+  place: "",
+  fullAddress: "",
+  stairs: "",
+  floorCount: 0,
+  latitude: null,
+  longitude: null,
+};
+
+export const defaultBookingData: BookingData = {
+  pickupLocation: defaultLocation,
+  viaLocations: [],
+  dropoffLocation: defaultLocation,
+  date: "",
+  time: "",
+  vanSize: "small",
+  durationHours: 1,
+  menRequired: 1,
+  name: "",
+  email: "",
+  phone: "",
+  breakdown: undefined,
+  rules: undefined,
+  totalCost: undefined,
+  totalMiles: undefined,
 };

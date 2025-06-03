@@ -1,0 +1,36 @@
+{
+  "pickupLocation": {
+    "place": "Londonderry, Derry City and Strabane, Northern Ireland, United Kingdom",
+    "fullAddress": "london",
+    "stairs": "lift",
+    "floorCount": 3,
+    "latitude": 54.99708,
+    "longitude": -7.3217
+  },
+  "viaLocations": [
+    {
+      "place": "Liverpool, Merseyside, England, United Kingdom",
+      "fullAddress": "this is for liverpool",
+      "stairs": "stairs",
+      "floorCount": 2,
+      "latitude": 53.407154,
+      "longitude": -2.991665
+    }
+  ],
+  "dropoffLocation": {
+    "place": "Manchester, Greater Manchester, England, United Kingdom",
+    "fullAddress": "this is mancherster",
+    "stairs": "lift",
+    "floorCount": 9,
+    "latitude": 53.479489,
+    "longitude": -2.245115
+  },
+  "date": "2025-06-04",
+  "time": "12:00",
+  "vanSize": "luton",
+  "durationHours": 8.5,
+  "menRequired": 3,
+  "name": "Myint N Phone",
+  "email": "phonemyintnaing@gmail.com",
+  "phone": "+447738518821"
+}
