@@ -1,15 +1,17 @@
-// BookingContext.tsx
-import { Location, QuoteFormData } from "@/data/type/QuoteFormData";
 import React, { createContext, useContext, useState, ReactNode } from "react";
+import { Location, BookingData } from "@/data/type/QuoteFormData";
 
+// Default values
 const defaultLocation: Location = {
   place: "",
   fullAddress: "",
   stairs: "",
   floorCount: 0,
+  latitude: null,
+  longitude: null,
 };
 
-const defaultBookingData: QuoteFormData = {
+const defaultBookingData: BookingData = {
   pickupLocation: defaultLocation,
   viaLocations: [],
   dropoffLocation: defaultLocation,
@@ -21,18 +23,24 @@ const defaultBookingData: QuoteFormData = {
   name: "",
   email: "",
   phone: "",
+  breakdown: undefined,
+  rules: undefined,
+  totalCost: undefined,
+  totalMiles: undefined,
 };
 
+// Context types
 type BookingContextType = {
-  bookingData: QuoteFormData;
-  setBookingData: React.Dispatch<React.SetStateAction<QuoteFormData>>;
+  bookingData: BookingData;
+  setBookingData: React.Dispatch<React.SetStateAction<BookingData>>;
 };
 
+// Context setup
 const BookingContext = createContext<BookingContextType | undefined>(undefined);
 
 export function BookingProvider({ children }: { children: ReactNode }) {
   const [bookingData, setBookingData] =
-    useState<QuoteFormData>(defaultBookingData);
+    useState<BookingData>(defaultBookingData);
 
   return (
     <BookingContext.Provider value={{ bookingData, setBookingData }}>
