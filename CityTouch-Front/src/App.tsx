@@ -7,20 +7,24 @@ import Home from "./pages/Home";
 import { ScrollToTop } from "./components/ScrollToTop";
 import Booking from "./pages/Booking";
 import NotFound from "./pages/NotFound";
+import LoginPage from "./pages/LoginPages";
+import RegisterPage from "./pages/RegisterPage";
 
 function App() {
   return (
     <>
-      <NavBar />
       <Router>
+        <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/booking" element={<Booking />} />
           <Route path="*" element={<NotFound />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
         </Routes>
+        <Footer />
+        <ScrollToTop />
       </Router>
-      <Footer />
-      <ScrollToTop />
     </>
   );
 }
