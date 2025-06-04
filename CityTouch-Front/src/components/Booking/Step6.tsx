@@ -1,6 +1,6 @@
 import { useBooking } from "@/context/bookingContext";
 import { BookingData, Location } from "@/data/type/QuoteFormData";
-// import type { BookingData, Location } from "@/type/QuoteFormData";
+import { MapPin, Map, Calendar, User, Truck } from "lucide-react"; // import icons
 
 const vanSizeLabels: Record<string, string> = {
   small: "Small Van",
@@ -8,7 +8,10 @@ const vanSizeLabels: Record<string, string> = {
   large: "Large Van",
   luton: "Luton Van",
 };
-
+const toUKDate = (dateString: string) => {
+  const [year, month, day] = dateString.split("-");
+  return `${day}/${month}/${year}`;
+};
 export default function Step6() {
   const { bookingData } = useBooking();
 
@@ -37,15 +40,7 @@ export default function Step6() {
     totalCost,
   } = data;
 
-  const pickupFloors = pickupLocation.floorCount;
-  const dropoffFloors = dropoffLocation.floorCount;
-  const viaFloors = viaLocations.reduce((sum, loc) => sum + loc.floorCount, 0);
   const viaCount = viaLocations.length;
-
-  const baseCost = 50;
-  const floorCost = (pickupFloors + dropoffFloors + viaFloors) * 10;
-  const viaCost = viaCount * 15;
-  const displayCost = totalCost ?? baseCost + floorCost + viaCost;
 
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-lg space-y-8 sm:space-y-10">
@@ -53,26 +48,37 @@ export default function Step6() {
         Summary & Cost
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-        <LocationCard title="Pickup Location" loc={pickupLocation} />
-        <LocationCard title="Dropoff Location" loc={dropoffLocation} />
+        <LocationCard
+          icon={<MapPin size={20} />}
+          title="Pickup Location"
+          loc={pickupLocation}
+        />
 
         {viaCount > 0 && (
-          <div className="col-span-full">
-            <ViaLocations viaLocations={viaLocations} />
+          <div>
+            <ViaLocations
+              icon={<Map size={20} />}
+              viaLocations={viaLocations}
+            />
           </div>
         )}
+        <LocationCard
+          icon={<MapPin size={20} />}
+          title="Dropoff Location"
+          loc={dropoffLocation}
+        />
       </div>
-      <DetailCard title="Date & Time">
-        {date} at {time}
+      <DetailCard icon={<Calendar size={20} />} title="Date & Time">
+        {toUKDate(date)} at {time}
       </DetailCard>
 
-      <DetailCard title="Contact Information">
+      <DetailCard icon={<User size={20} />} title="Contact Information">
         <p>Name: {name}</p>
         <p>Email: {email}</p>
         <p>Phone: {phone}</p>
       </DetailCard>
 
-      <DetailCard title="Booking Details">
+      <DetailCard icon={<Truck size={20} />} title="Booking Details">
         <p>
           Van Size:{" "}
           <span className="capitalize font-medium">
@@ -91,16 +97,27 @@ export default function Step6() {
       </DetailCard>
 
       <div className="col-span-full text-center sm:text-right text-3xl font-extrabold text-green-700">
-        Total Cost: <span className="text-4xl">£{displayCost.toFixed(2)}</span>
+        Total Cost: <span className="text-4xl">£{totalCost?.toFixed(2)}</span>
       </div>
     </div>
   );
 }
 
-function LocationCard({ title, loc }: { title: string; loc: Location }) {
+function LocationCard({
+  title,
+  loc,
+  icon,
+}: {
+  title: string;
+  loc: Location;
+  icon: React.ReactNode;
+}) {
   return (
     <section className="bg-gray-50 p-4 rounded-md shadow-sm">
-      <h3 className="text-lg font-semibold text-gray-800 mb-2">{title}</h3>
+      <h3 className="text-lg font-semibold text-gray-800 mb-2 flex items-center gap-2">
+        {icon}
+        {title}
+      </h3>
       <p className="text-gray-700 font-medium">{loc.place}</p>
       <p className="text-gray-600 text-sm mb-1">{loc.fullAddress}</p>
       <p className="text-sm text-gray-500">
@@ -113,10 +130,17 @@ function LocationCard({ title, loc }: { title: string; loc: Location }) {
   );
 }
 
-function ViaLocations({ viaLocations }: { viaLocations: Location[] }) {
+function ViaLocations({
+  viaLocations,
+  icon,
+}: {
+  viaLocations: Location[];
+  icon: React.ReactNode;
+}) {
   return (
     <section className="bg-gray-50 p-4 rounded-md shadow-sm">
-      <h3 className="text-lg font-semibold text-gray-800 mb-2">
+      <h3 className="text-lg font-semibold text-gray-800 mb-2 flex items-center gap-2">
+        {icon}
         Via Locations
       </h3>
       {viaLocations.length > 0 ? (
@@ -148,13 +172,18 @@ function ViaLocations({ viaLocations }: { viaLocations: Location[] }) {
 function DetailCard({
   title,
   children,
+  icon,
 }: {
   title: string;
   children: React.ReactNode;
+  icon: React.ReactNode;
 }) {
   return (
     <section className="bg-gray-50 p-4 rounded-md shadow-sm">
-      <h3 className="text-lg font-semibold text-gray-800 mb-2">{title}</h3>
+      <h3 className="text-lg font-semibold text-gray-800 mb-2 flex items-center gap-2">
+        {icon}
+        {title}
+      </h3>
       <div className="text-gray-700 text-base space-y-1">{children}</div>
     </section>
   );
