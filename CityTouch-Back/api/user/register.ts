@@ -4,8 +4,12 @@ import { VercelRequest, VercelResponse } from "@vercel/node";
 import bcrypt from "bcrypt";
 import connect from "../../lib/mongoose"; // your DB connection util
 import User from "../../models/User"; // your Mongoose User model
+import { handleCors } from "../../util/cors";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  if (handleCors(req, res)) {
+    return; // Preflight done, stop here
+  }
   if (req.method !== "POST")
     return res.status(405).json({ error: "Method Not Allowed" });
 
@@ -14,8 +18,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (!username || !password || !creatorPassword) {
     return res.status(400).json({ error: "Missing required fields" });
   }
-  console.log("this is creator" + creatorPassword);
-  console.log("this is process" + process.env.PASS_CREATOR);
+
   if (creatorPassword !== process.env.PASS_CREATOR) {
     return res
       .status(401)

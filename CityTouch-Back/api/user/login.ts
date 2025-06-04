@@ -3,10 +3,13 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import connect from "../../lib/mongoose";
 import User from "../../models/User";
+import { handleCors } from "../../util/cors";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   await connect();
-
+  if (handleCors(req, res)) {
+    return; // Preflight done, stop here
+  }
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method Not Allowed" });
   }
