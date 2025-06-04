@@ -1,7 +1,11 @@
 import { Mail, Phone, MapPin } from "lucide-react";
 import { ModeToggle } from "./mode-toggle";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
   return (
     <footer
       className="py-12 border-t"
@@ -116,8 +120,14 @@ const Footer = () => {
       </div>
       {/* Copyright */}
       <div className="mt-12 border-t border-gray-300 dark:border-gray-700 pt-6">
-        <p className="text-center text-gray-600 dark:text-gray-400 text-sm select-none">
+        <p className="text-center text-gray-700 dark:text-gray-400 text-sm select-none">
           &copy; {new Date().getFullYear()} CityTouch. All rights reserved.
+        </p>
+        <p className="text-center text-gray-400 dark:text-gray-400 text-sm select-none">
+          Crafted with ❤️ from{" "}
+          <Link to="/login" onClick={scrollToTop}>
+            MgPhone
+          </Link>
         </p>
       </div>
     </footer>

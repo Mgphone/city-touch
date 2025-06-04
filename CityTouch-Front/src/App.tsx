@@ -9,11 +9,13 @@ import Booking from "./pages/Booking";
 import NotFound from "./pages/NotFound";
 import LoginPage from "./pages/LoginPages";
 import RegisterPage from "./pages/RegisterPage";
+import ToastProvider from "./components/ToastProvider";
 
 function App() {
   return (
     <>
       <Router>
+        <ToastProvider />
         <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />
