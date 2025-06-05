@@ -22,7 +22,7 @@ function Layout() {
   const location = useLocation();
 
   // Pages where NavBar and Footer should NOT show
-  const noNavFooterPaths = ["/login", "/register", "/dashboard"];
+  const noNavFooterPaths = ["/dashboard"];
 
   const hideNavFooter = noNavFooterPaths.includes(location.pathname);
 

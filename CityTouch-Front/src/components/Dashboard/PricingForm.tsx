@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Prices } from "@/data/type/backComingData";
-
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 interface Props {
   prices: Prices & { _id?: string };
   setPrices: (prices: Prices) => void;
@@ -43,11 +43,11 @@ export default function PricingForm({ prices, setPrices, fetchPrices }: Props) {
   const handleSubmit = async () => {
     if (!formData?._id) return;
     const token = localStorage.getItem("authToken");
-    const updated = await axios.put(
-      `http://localhost:3000/api/pricingRules`,
-      formData,
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
+    const API_URL = import.meta.env.VITE_BACK_URL;
+    const fullURL = `${API_URL}pricingRules`;
+    const updated = await axios.put(fullURL, formData, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     setPrices(updated.data); // sync parent
     fetchPrices();
   };
@@ -55,80 +55,90 @@ export default function PricingForm({ prices, setPrices, fetchPrices }: Props) {
   if (!formData) return null;
 
   return (
-    <form
-      className="grid grid-cols-1 sm:grid-cols-2 gap-6 p-4"
-      onSubmit={(e) => {
-        e.preventDefault();
-        handleSubmit();
-      }}
-    >
-      <div>
-        <Label htmlFor="stairPerFloor">Stair per floor</Label>
-        <Input
-          min={1}
-          id="stairPerFloor"
-          type="number"
-          name="stairPerFloor"
-          value={formData.stairPerFloor}
-          onChange={handleChange}
-        />
-      </div>
+    <section className="mb-12 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg">Update Pricing</CardTitle>
+        </CardHeader>
 
-      <div>
-        <Label htmlFor="mileRate">Mile rate</Label>
-        <Input
-          id="mileRate"
-          type="number"
-          name="mileRate"
-          value={formData.mileRate}
-          onChange={handleChange}
-        />
-      </div>
+        <CardContent>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSubmit();
+            }}
+            className="grid grid-cols-1 sm:grid-cols-2 gap-6"
+          >
+            <div>
+              <Label htmlFor="stairPerFloor">Stair per floor</Label>
+              <Input
+                id="stairPerFloor"
+                name="stairPerFloor"
+                type="number"
+                min={1}
+                value={formData.stairPerFloor}
+                onChange={handleChange}
+              />
+            </div>
 
-      <div>
-        <Label htmlFor="manPerHour">Man per hour</Label>
-        <Input
-          min={1}
-          id="manPerHour"
-          type="number"
-          name="manPerHour"
-          value={formData.manPerHour}
-          onChange={handleChange}
-        />
-      </div>
+            <div>
+              <Label htmlFor="mileRate">Mile rate</Label>
+              <Input
+                id="mileRate"
+                name="mileRate"
+                type="number"
+                value={formData.mileRate}
+                onChange={handleChange}
+              />
+            </div>
 
-      <div>
-        <Label htmlFor="halfHourRate">Half hour rate</Label>
-        <Input
-          min={1}
-          id="halfHourRate"
-          type="number"
-          name="halfHourRate"
-          value={formData.halfHourRate}
-          onChange={handleChange}
-        />
-      </div>
+            <div>
+              <Label htmlFor="manPerHour">Man per hour</Label>
+              <Input
+                id="manPerHour"
+                name="manPerHour"
+                type="number"
+                min={1}
+                value={formData.manPerHour}
+                onChange={handleChange}
+              />
+            </div>
 
-      {Object.entries(formData.vanSizeRates).map(([size, rate]) => (
-        <div key={size}>
-          <Label htmlFor={size}>
-            {size.charAt(0).toUpperCase() + size.slice(1)} van rate
-          </Label>
-          <Input
-            min={1}
-            id={size}
-            type="number"
-            value={rate}
-            onChange={(e) => handleVanSizeChange(e, size)}
-          />
-        </div>
-      ))}
+            <div>
+              <Label htmlFor="halfHourRate">Half hour rate</Label>
+              <Input
+                id="halfHourRate"
+                name="halfHourRate"
+                type="number"
+                min={1}
+                value={formData.halfHourRate}
+                onChange={handleChange}
+              />
+            </div>
 
-      <div className="sm:col-span-2">
-        <Button type="submit" className="w-full sm:w-fit">
-          Update Pricing
-        </Button>
-      </div>
-    </form>
+            {Object.entries(formData.vanSizeRates).map(([size, rate]) => (
+              <div key={size}>
+                <Label htmlFor={size}>
+                  {size.charAt(0).toUpperCase() + size.slice(1)} van rate
+                </Label>
+                <Input
+                  id={size}
+                  type="number"
+                  min={1}
+                  value={rate}
+                  onChange={(e) => handleVanSizeChange(e, size)}
+                />
+              </div>
+            ))}
+
+            <div className="sm:col-span-2">
+              <Button type="submit" className="w-full sm:w-fit">
+                Update Pricing
+              </Button>
+            </div>
+          </form>
+        </CardContent>
+      </Card>
+    </section>
   );
 }

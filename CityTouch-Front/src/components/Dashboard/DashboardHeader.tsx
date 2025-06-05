@@ -12,14 +12,14 @@ export default function DashboardHeader() {
   };
 
   return (
-    <header className="text-gray-600 bg-white p-6 flex flex-col md:flex-row items-center justify-between max-w-7xl mx-auto rounded-md shadow-md mb-12">
-      <h1 className="text-4xl font-extrabold mb-4 md:mb-0">
+    <header className="flex flex-col md:flex-row items-center justify-between gap-4">
+      <h1 className="text-3xl font-bold">
         Welcome to Dashboard{" "}
         <span className="inline-block animate-pulse text-yellow-400">
-          {username ? username : "guest"}
+          {username || "guest"}
         </span>
       </h1>
-      <Button onClick={handleLogout} className="whitespace-nowrap px-6 py-3">
+      <Button variant="destructive" onClick={handleLogout}>
         Logout
       </Button>
     </header>
