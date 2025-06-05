@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
@@ -20,7 +20,13 @@ export default function MultiStepForm() {
     defaultValues: bookingData,
     mode: "onTouched",
   });
-
+  useEffect(() => {
+    {
+      console.log(
+        "This is updateStage of bookingData" + JSON.stringify(bookingData)
+      );
+    }
+  }, [bookingData]);
   const { handleSubmit, trigger, getValues } = methods;
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false); // ✅ loading state

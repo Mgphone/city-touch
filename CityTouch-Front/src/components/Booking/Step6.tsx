@@ -1,6 +1,9 @@
 import { useBooking } from "@/context/bookingContext";
 import { BookingData, Location } from "@/data/type/QuoteFormData";
+import { generateBookingCode } from "@/lib/generatingBookingCode";
+import axios from "axios";
 import { MapPin, Map, Calendar, User, Truck } from "lucide-react"; // import icons
+import { useEffect } from "react";
 
 const vanSizeLabels: Record<string, string> = {
   small: "Small Van",
@@ -12,8 +15,51 @@ const toUKDate = (dateString: string) => {
   const [year, month, day] = dateString.split("-");
   return `${day}/${month}/${year}`;
 };
+async function createBookingInDB(bookingData: BookingData) {
+  try {
+    const API_URL = import.meta.env.VITE_BACK_URL;
+    const fullURL = `${API_URL}booking`;
+    const token = localStorage.getItem("authToken");
+
+    const response = await axios.post(fullURL, bookingData, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    return response.data; // or whatever your backend returns
+  } catch (error) {
+    console.error("Error creating booking:", error);
+    throw error; // rethrow so caller can handle it
+  }
+}
 export default function Step6() {
-  const { bookingData } = useBooking();
+  const { bookingData, setBookingData } = useBooking();
+  useEffect(() => {
+    if (!bookingData?.pickupLocation?.place) return;
+
+    const timer = setTimeout(() => {
+      const generatedCode = generateBookingCode();
+      setBookingData((prev) => ({
+        ...prev,
+        bookingCode: generatedCode,
+        paymentPercentage: 0,
+      }));
+    }, 3000); // runs once after 3 seconds
+
+    return () => clearTimeout(timer);
+  }, [bookingData?.pickupLocation?.place]);
+  useEffect(() => {
+    if (!bookingData.bookingCode) return;
+
+    async function updateDB() {
+      try {
+        await createBookingInDB(bookingData);
+      } catch (error) {
+        console.error("Fail to update booking in DB", error);
+      }
+    }
+
+    updateDB();
+  }, [bookingData.bookingCode]);
 
   if (!bookingData?.pickupLocation?.place) {
     return (

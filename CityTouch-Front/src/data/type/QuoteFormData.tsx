@@ -55,6 +55,8 @@ export type BookingData = QuoteFormData & {
   rules?: PricingRules;
   totalCost?: number;
   totalMiles?: number;
+  bookingCode?: string;
+  paymentPercentage?: 0 | 30 | 50 | 100;
 };
 
 // Default values for new forms

@@ -48,7 +48,7 @@ export interface IBooking extends Document {
   rules: IRules;
   totalCost: number;
   totalMiles: number;
-  paymentStatus: "unpaid" | "35" | "70" | "full"; // payment progress
+  paymentPercentage: number;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -110,12 +110,7 @@ const BookingSchema = new Schema<IBooking>(
     rules: { type: RulesSchema, required: true },
     totalCost: { type: Number, required: true },
     totalMiles: { type: Number, required: true },
-    paymentStatus: {
-      type: String,
-      enum: ["unpaid", "35", "70", "full"],
-      required: true,
-      default: "unpaid",
-    },
+    paymentPercentage: { type: Number, default: 0 },
   },
   { timestamps: true }
 );

@@ -27,6 +27,8 @@ const defaultBookingData: BookingData = {
   rules: undefined,
   totalCost: undefined,
   totalMiles: undefined,
+  bookingCode: undefined,
+  paymentPercentage: 0,
 };
 
 // Context types
