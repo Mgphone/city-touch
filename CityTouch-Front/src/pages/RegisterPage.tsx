@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import axios, { AxiosError } from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -130,6 +130,15 @@ export default function RegisterPage() {
               {errors.creatorPassword.message}
             </p>
           )}
+        </div>
+        <div className="text-center text-sm mt-4 px-2">
+          <span className="block sm:inline mr-1">Back to</span>
+          <Link
+            to="/login"
+            className="block sm:inline text-blue-600 hover:underline font-medium"
+          >
+            Login Page
+          </Link>
         </div>
 
         {/* Submit Button */}

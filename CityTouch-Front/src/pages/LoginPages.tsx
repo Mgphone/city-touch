@@ -3,7 +3,7 @@ import axios, { AxiosError } from "axios";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 interface LoginFormData {
@@ -17,15 +17,15 @@ export default function LoginPage() {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<LoginFormData>();
-
+  const navigate = useNavigate();
   const onSubmit = async (data: LoginFormData) => {
     try {
       const url = `${import.meta.env.VITE_BACK_URL}user/login`;
       const response = await axios.post(url, data);
       const token = response.data.token;
-      sessionStorage.setItem("authToken", token);
+      localStorage.setItem("authToken", token);
       toast.success("Login successful!");
-      // Redirect or update auth state here
+      navigate("/dashboard"); // Redirect or update auth state here
     } catch (error: unknown) {
       const axiosError = error as AxiosError<{ error?: string }>;
 
@@ -80,12 +80,17 @@ export default function LoginPage() {
             </p>
           )}
         </div>
-        <div className="text-center text-sm">
-          Don’t have an account?{" "}
-          <Link to="/register" className="text-blue-600 hover:underline">
+
+        <div className="text-center text-sm mt-4 px-2">
+          <span className="block sm:inline mr-1"> Don’t have an account? </span>
+          <Link
+            to="/register"
+            className="block sm:inline text-blue-600 hover:underline font-medium"
+          >
             Register here
           </Link>
         </div>
+
         <Button
           type="submit"
           disabled={isSubmitting}
