@@ -1,6 +1,7 @@
 export type VanSize = "small" | "medium" | "large" | "luton";
 
 export interface Prices {
+  _id?: string;
   stairPerFloor: number;
   mileRate: number;
   manPerHour: number;

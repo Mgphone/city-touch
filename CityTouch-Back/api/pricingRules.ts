@@ -49,20 +49,32 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   if (req.method === "PUT") {
+    const id = req.body._id as string;
+
+    if (!id) return res.status(400).json({ error: "Missing ID" });
+
+    const authHeader = req.headers.authorization;
+    if (!authHeader?.startsWith("Bearer ")) {
+      return res.status(401).json({ error: "Missing or invalid token" });
+    }
+
+    const token = authHeader.split(" ")[1];
+
     try {
-      const id = req.query.id as string;
-      if (!id) return res.status(400).json({ message: "Missing id" });
+      jwt.verify(token, process.env.JWT_SECRET!);
 
-      const updatedRule = await PricingRules.findByIdAndUpdate(id, req.body, {
+      const updated = await PricingRules.findByIdAndUpdate(id, req.body, {
         new: true,
-        runValidators: true,
       });
-      if (!updatedRule)
-        return res.status(404).json({ message: "Rule not found" });
 
-      return res.status(200).json(updatedRule);
-    } catch (error) {
-      return res.status(400).json({ message: "Update failed", error });
+      if (!updated) {
+        return res.status(404).json({ error: "Document not found" });
+      }
+
+      return res.status(200).json(updated);
+    } catch (err) {
+      console.error("Update error:", err);
+      return res.status(401).json({ error: "Invalid token or bad data" });
     }
   }
 

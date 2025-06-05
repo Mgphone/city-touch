@@ -1,17 +1,18 @@
 // import BookingsList from "@/components/Dashboard/BookingsList";
 import DashboardHeader from "@/components/Dashboard/DashboardHeader";
 import PricingCard from "@/components/Dashboard/PricingCard";
+import PricingForm from "@/components/Dashboard/PricingForm";
 import { Prices } from "@/data/type/backComingData";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-interface Booking {
-  id: string;
-  customerName: string;
-  date: string;
-  price: number;
-  status: "paid" | "quotation";
-}
+// interface Booking {
+//   id: string;
+//   customerName: string;
+//   date: string;
+//   price: number;
+//   status: "paid" | "quotation";
+// }
 
 // const sampleBookings: Booking[] = [
 //   {
@@ -42,45 +43,59 @@ export default function Dashboard() {
   const [isPriceLoading, setIsPriceLoading] = useState<boolean>(true);
   // const [bookings] = useState<Booking[]>(sampleBookings);
 
-  useEffect(() => {
-    async function fetchPrices() {
-      const token = localStorage.getItem("authToken");
-      if (!token) {
-        setIsPriceLoading(false);
-        return;
-      }
-
-      try {
-        setIsPriceLoading(true);
-
-        const url = `${import.meta.env.VITE_BACK_URL}pricingRules`;
-
-        const response = await axios.get(url, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        setPrices(response.data[0]);
-      } catch (error) {
-        console.error("Error fetching pricing rules:", error);
-        setPrices(null);
-      } finally {
-        setIsPriceLoading(false);
-      }
+  async function fetchPrices() {
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      setIsPriceLoading(false);
+      return;
     }
 
+    try {
+      setIsPriceLoading(true);
+
+      const url = `${import.meta.env.VITE_BACK_URL}pricingRules`;
+
+      const response = await axios.get(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setPrices(response.data[0]);
+    } catch (error) {
+      console.error("Error fetching pricing rules:", error);
+      setPrices(null);
+    } finally {
+      setIsPriceLoading(false);
+    }
+  }
+  useEffect(() => {
     fetchPrices();
   }, []); // Run once on mount
 
   return (
-    <div className="max-w-5xl mx-auto p-6">
+    <main className="max-w-5xl mx-auto p-6 space-y-8">
       <DashboardHeader />
-      {/* Show the PricingCard only when prices are loaded */}
-      {isPriceLoading && <p>Loding...</p>}
-      {!isPriceLoading && prices && <PricingCard prices={prices} />}
+
+      {isPriceLoading ? (
+        <p className="text-center text-gray-600">Loading...</p>
+      ) : (
+        prices && (
+          <section className="space-y-6">
+            <PricingCard prices={prices} />
+
+            <div className="bg-gray-20 p-6 rounded-md shadow-lg">
+              <PricingForm
+                setPrices={setPrices}
+                prices={prices}
+                fetchPrices={fetchPrices}
+              />
+            </div>
+          </section>
+        )
+      )}
 
       {/* <BookingsList bookings={bookings} /> */}
-    </div>
+    </main>
   );
 }
