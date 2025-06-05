@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
+    "target": "ESNext", // Use latest JS features
     "module": "CommonJS",
-    "lib": ["ES2020"],
+    "lib": ["ESNext", "DOM"], // Include latest ECMAScript and DOM libs
     "strict": true,
     "esModuleInterop": true,
     "moduleResolution": "node",
