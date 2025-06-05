@@ -1,13 +1,29 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import PricingRules from "../models/PricingRules";
 import connect from "../lib/mongoose";
+import { handleCors } from "../util/cors";
+import jwt from "jsonwebtoken";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   await connect();
 
+  if (handleCors(req, res)) {
+    return; // handle CORS preflight
+  }
+
   if (req.method === "GET") {
-    const rules = await PricingRules.find({});
-    return res.status(200).json(rules);
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer")) {
+      return res.status(401).json({ error: "Authorization token missing" });
+    }
+    const token = authHeader.split(" ")[1];
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET!);
+      const rules = await PricingRules.find({});
+      return res.status(200).json(rules);
+    } catch (error) {
+      return res.status(401).json({ error: "Invalid token or expired" });
+    }
   }
 
   if (req.method === "POST") {

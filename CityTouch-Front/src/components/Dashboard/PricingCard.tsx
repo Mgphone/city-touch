@@ -5,22 +5,10 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui/card";
-
-type VanSize = "small" | "medium" | "large" | "luton";
-
-interface Prices {
-  stairPerFloor: number;
-  mileRate: number;
-  manPerHour: number;
-  vanSizeRates: Record<VanSize, number>;
-  halfHourRate: number;
-}
-
-interface PricingCardProps {
-  prices: Prices;
-}
+import { PricingCardProps } from "@/data/type/backComingData";
 
 export default function PricingCard({ prices }: PricingCardProps) {
+  console.log(JSON.stringify(prices));
   return (
     <section className="mb-12 max-w-4xl mx-auto">
       <Card>
