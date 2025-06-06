@@ -57,6 +57,7 @@ export type BookingData = QuoteFormData & {
   totalMiles?: number;
   bookingCode?: string;
   paymentPercentage?: 0 | 30 | 50 | 100;
+  halfHourCost?: number;
 };
 
 // Default values for new forms

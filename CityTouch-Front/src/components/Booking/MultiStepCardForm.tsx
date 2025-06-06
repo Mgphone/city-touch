@@ -37,7 +37,15 @@ export default function MultiStepForm() {
     try {
       setLoading(true); // ✅ Start loading
       const response = await axios.post(fullURL, data);
-      const { breakdown, rules, totalCost, totalMiles } = response.data;
+      const {
+        breakdown,
+        rules,
+        totalCost,
+        totalMiles,
+        halfHourCost,
+        payableNow,
+        outstandingBalance,
+      } = response.data;
 
       // ✅ Merge backend values into bookingData context
       setBookingData((prev) => ({
@@ -47,6 +55,9 @@ export default function MultiStepForm() {
         rules,
         totalCost,
         totalMiles,
+        halfHourCost,
+        payableNow,
+        outstandingBalance,
       }));
 
       alert(`Quote calculated! Total cost: £${response.data.totalCost}`);
@@ -154,7 +165,7 @@ export default function MultiStepForm() {
               className="w-full sm:w-auto bg-purple-700 text-white hover:bg-purple-800 focus:ring-purple-600 shadow-md"
               type="submit"
             >
-              Submit
+              Confirm & Pay
             </Button>
           )}
         </div>
