@@ -89,6 +89,8 @@ export default function PricingForm({ prices, setPrices, fetchPrices }: Props) {
                 type="number"
                 value={formData.mileRate}
                 onChange={handleChange}
+                min={0}
+                step="0.01"
               />
             </div>
 
