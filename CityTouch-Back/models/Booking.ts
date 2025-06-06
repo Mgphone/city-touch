@@ -48,9 +48,12 @@ export interface IBooking extends Document {
   rules: IRules;
   totalCost: number;
   totalMiles: number;
-  paymentPercentage: number;
   createdAt: Date;
   updatedAt: Date;
+  halfHourCost: number;
+  paymentPercentage: number; // 0|30 | 50 | 100
+  payableNow: number; // Paid now
+  outstandingBalance: number;
 }
 
 const LocationSchema = new Schema<ILocation>({
@@ -110,7 +113,10 @@ const BookingSchema = new Schema<IBooking>(
     rules: { type: RulesSchema, required: true },
     totalCost: { type: Number, required: true },
     totalMiles: { type: Number, required: true },
+    halfHourCost: { type: Number, required: true },
     paymentPercentage: { type: Number, default: 0 },
+    payableNow: { type: Number, required: false },
+    outstandingBalance: { type: Number, required: true },
   },
   { timestamps: true }
 );

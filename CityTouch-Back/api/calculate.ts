@@ -1,6 +1,5 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import fetch from "node-fetch"; // For Node < 18
-import sampleData from "../data/sampleData.json";
 import connect from "../lib/mongoose";
 import PricingRules from "../models/PricingRules";
 import { QuoteFormData } from "../type/QuoteFormData";
@@ -55,6 +54,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       durationHours,
       vanSize,
       menRequired,
+      paymentPercentage = 0,
     } = req.body as QuoteFormData;
 
     const allLocations = [pickupLocation, ...viaLocations, dropoffLocation];
@@ -95,11 +95,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const totalCost =
       stairCost + mileageCost + vanCost + menCost + durationCost;
+    const halfHourCost = (totalCost / durationHours) * 2;
+
+    const payableNow = parseFloat(
+      ((totalCost * paymentPercentage) / 100).toFixed(2)
+    );
+    const outstandingBalance = parseFloat((totalCost - payableNow).toFixed(2));
 
     return res.status(200).json({
       success: true,
       totalCost: parseFloat(totalCost.toFixed(2)),
+      halfHourCost: parseFloat(halfHourCost.toFixed(2)),
       totalMiles: parseFloat(distanceInMiles.toFixed(2)),
+      payableNow,
+      outstandingBalance,
       breakdown: {
         stairCost: parseFloat(stairCost.toFixed(2)),
         mileageCost: parseFloat(mileageCost.toFixed(2)),
@@ -108,7 +117,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         durationCost: parseFloat(durationCost.toFixed(2)),
         miles: parseFloat(distanceInMiles.toFixed(2)),
       },
-      rules: rules,
+      rules,
       routeCoordinates: coordinates,
     });
   } catch (error: any) {

@@ -22,4 +22,5 @@ export type QuoteFormData = {
   name: string;
   email: string;
   phone: string;
+  paymentPercentage?: 0 | 30 | 50 | 100;
 };
