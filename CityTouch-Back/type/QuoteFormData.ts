@@ -22,5 +22,10 @@ export type QuoteFormData = {
   name: string;
   email: string;
   phone: string;
-  paymentPercentage?: number;
+  bookingCode: string;
+  paymentPercentage: number;
+  halfHourCost: number;
+  totalCost: number;
+  payableNow: number;
+  outstandingBalance: number;
 };

@@ -4,7 +4,8 @@ import Booking from "../models/Booking";
 import { handleCors } from "../util/cors";
 import { verifyToken } from "../util/verifyToken";
 import jwt from "jsonwebtoken";
-
+import { generateSuccessEmailText } from "../data/success-mail";
+import { sendEmail } from "../util/mailer";
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   await connect();
 
@@ -87,6 +88,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           req.body,
           { new: true }
         );
+
+        if (!updated) {
+          return res.status(500).json({ message: "Failed to update booking." });
+        }
+
+        const emailContent = generateSuccessEmailText(req.body); // use the saved data
+        await sendEmail(
+          req.body.email,
+          "Your Booking Confirmation",
+          emailContent
+        );
+
         return res
           .status(200)
           .json({ message: "Booking updated", booking: updated });

@@ -10,5 +10,5 @@
     "outDir": "dist",
     "resolveJsonModule": true
   },
-  "include": ["api/**/*.ts"]
+  "include": ["api/**/*.ts", "data/success-mail.ts", "data/retrieve-mail.ts"]
 }
