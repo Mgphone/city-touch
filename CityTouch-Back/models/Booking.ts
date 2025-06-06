@@ -51,7 +51,7 @@ export interface IBooking extends Document {
   createdAt: Date;
   updatedAt: Date;
   halfHourCost: number;
-  paymentPercentage: number; // 0|30 | 50 | 100
+  paymentPercentage: number;
   payableNow: number; // Paid now
   outstandingBalance: number;
 }

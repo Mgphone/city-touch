@@ -4,6 +4,8 @@ import { generateBookingCode } from "@/lib/generatingBookingCode";
 import axios from "axios";
 import { MapPin, Map, Calendar, User, Truck } from "lucide-react"; // import icons
 import { useEffect } from "react";
+import PaymentOptions from "./PaymentOptions";
+import PaymentSummary from "./PaymentSummary";
 
 const vanSizeLabels: Record<string, string> = {
   small: "Small Van",
@@ -46,7 +48,7 @@ export default function Step6() {
     }, 3000); // runs once after 3 seconds
 
     return () => clearTimeout(timer);
-  }, [bookingData?.pickupLocation?.place]);
+  }, [bookingData?.pickupLocation?.place, setBookingData]);
   useEffect(() => {
     if (!bookingData.bookingCode) return;
 
@@ -83,7 +85,6 @@ export default function Step6() {
     vanSize,
     durationHours,
     menRequired,
-    totalCost,
   } = data;
 
   const viaCount = viaLocations.length;
@@ -141,9 +142,9 @@ export default function Step6() {
           Helpers Required: <span className="font-medium">{menRequired}</span>
         </p>
       </DetailCard>
-
-      <div className="col-span-full text-center sm:text-right text-3xl font-extrabold text-green-700">
-        Total Cost: <span className="text-4xl">£{totalCost?.toFixed(2)}</span>
+      <div className="bg-gray-50 p-4 rounded-md shadow-sm">
+        <PaymentOptions />
+        <PaymentSummary />
       </div>
     </div>
   );

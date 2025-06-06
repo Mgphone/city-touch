@@ -55,6 +55,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         name,
         email,
         phone,
+        paymentPercentage,
+        totalCost,
       } = req.body;
 
       if (
@@ -74,19 +76,27 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           .status(400)
           .json({ message: "Missing required booking fields" });
       }
-
+      const payableNow = totalCost * (paymentPercentage / 100);
+      const outstandingBalance = totalCost - payableNow;
+      req.body.payableNow = payableNow;
+      req.body.outstandingBalance = outstandingBalance;
       const existing = await Booking.findOne({ bookingCode });
       if (existing) {
+        const updated = await Booking.findOneAndUpdate(
+          { bookingCode },
+          req.body,
+          { new: true }
+        );
         return res
-          .status(409)
-          .json({ message: "Booking with this code already exists" });
+          .status(200)
+          .json({ message: "Booking updated", booking: updated });
+      } else {
+        const newBooking = new Booking(req.body);
+        await newBooking.save();
+        return res
+          .status(201)
+          .json({ message: "Booking created", booking: newBooking });
       }
-
-      const newBooking = new Booking(req.body);
-      await newBooking.save();
-      return res
-        .status(201)
-        .json({ message: "Booking created", booking: newBooking });
     } catch (error: any) {
       return res.status(500).json({ message: error.message });
     }
